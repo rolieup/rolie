@@ -1,0 +1,452 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!ENTITY xml-names SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml4/reference.W3C.REC-xml-names-20091208.xml">
+<!ENTITY RFC2119 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC5070 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5070.xml">
+<!ENTITY RFC4949 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4949.xml">
+<!ENTITY RFC8322 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8322.xml">
+<!ENTITY RFC8174 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml">
+<!ENTITY I-D.ietf-sacm-coswid SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-sacm-coswid.xml">
+]>
+<?xml-stylesheet type="text/css" href="rfc7749.css"?>
+<rfc ipr="trust200902" category="info" docName="draft-ietf-sacm-rolie-softwaredescriptor-07">
+  <?rfc compact="yes"?>
+  <?rfc subcompact="no"?>
+  <?rfc toc="yes"?>
+  <?rfc symrefs="yes"?>
+  <front>
+    <title abbrev="ROLIE SWD EXT">Definition of the ROLIE Software Descriptor Extension</title>
+    <author fullname="Stephen Banghart" initials="S.B." surname="Banghart">
+      <organization>NIST</organization>
+      <address>
+        <postal>
+          <street>100 Bureau Drive</street>
+          <city>Gaithersburg</city>
+          <region>Maryland</region>
+          <code>20877</code>
+          <country>USA</country>
+        </postal>
+        <email>stephen.banghart@nist.gov</email>
+      </address>
+    </author>
+    <author fullname="David Waltermire" initials="D.W." surname="Waltermire">
+      <organization>NIST</organization>
+      <address>
+        <postal>
+          <street>100 Bureau Drive</street>
+          <city>Gaithersburg</city>
+          <region>Maryland</region>
+          <code>20877</code>
+          <country>USA</country>
+        </postal>
+        <email>david.waltermire@nist.gov</email>
+      </address>
+    </author>
+    <date year="2019"/>
+    <area>Security</area>
+    <workgroup>SACM Working Group</workgroup>
+    <keyword>rolie</keyword>
+    <keyword>software</keyword>
+    <keyword>software descriptor</keyword>
+    <keyword>swid</keyword>
+    <abstract>
+      <t>This document uses the "information-type" extension point as defined in the
+        Resource-Oriented Lightweight Information Exchange (ROLIE) <xref target="RFC8322"/> Section
+        7.1.2 to better support Software Record and Software Inventory use cases. This specification
+        registers a new ROLIE information-type, "software-descriptor", that allows for the
+        categorization of information relevant to software description activities and formats. In
+        particular, the usage of the ISO 19770-2:2015 Software Identification Tag (SWID Tag) and the
+        Concise SWID (COSWID) formats in ROLIE are standardized. Additionally, this document
+        discusses requirements and usage of other ROLIE elements in order to best syndicate software
+        description information.</t>
+    </abstract>
+  </front>
+  <middle>
+    <section title="Introduction" anchor="starting-intro">
+      <t>This document defines an extension to the Resource-Oriented Lightweight Information
+        Exchange (ROLIE) <xref target="RFC8322"/> to support the publication of software descriptor
+        information. Software descriptor information is information that characterizes static
+        software components, packages, and installers; including identification, version, software
+        creation and publication, and file artifact information. </t>
+
+      <t> Software descriptor information provides data about what might be installed, but doesn't
+        describe a specific software installation's configuration or execution. This static approach
+        to software description is a tightly limited scope that still covers the majority of current
+        use cases for software inventory and record keeping.</t>
+
+      <t>Some possible use cases for software descriptor information ROLIE Feeds (Section 6.1 of
+          <xref target="RFC8322"/>) include:<list style="symbols">
+          <t>Software providers can publish software descriptor information so that software
+            researchers, enterprises, and users of software can understand the collection of
+            software produced by that software provider.</t>
+          <t>Organizations can aggregate and syndicate collections of software descriptor
+            information provided by multiple software providers to support software-related analysis
+            processes (e.g., vulnerability analysis) and to provide downsteam services (e.g.,
+            software configuration checklist repositories).</t>
+          <t>End user organizations can consume software descriptor information along with related
+            software vulnerability and configuration information to provide the data needed to
+            automate software asset, patch, and configuration management practices.</t>
+          <t>Organizations can use software descriptors to support verification of other entities
+            through integrity measurement mechanisms. </t>
+        </list></t>
+      <t>This document supports these use cases by describing the content requirements for Feeds and
+        Entries of software descriptor information that are to be published to or retrieved from a
+        ROLIE repository.</t>
+    </section>
+    <section title="Terminology" anchor="ext-terminology">
+      <t>The key words "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL NOT," "SHOULD," "SHOULD NOT,"
+        "RECOMMENDED," "MAY," and "OPTIONAL" in this document are to be interpreted as described in
+          <xref target="RFC2119"/>. </t>
+      <t>As an extension of <xref target="RFC8322"/>, this document refers to many terms
+        defined in that document. In particular, the use of "Entry" and "Feed" are aligned
+        with the definitions presented in section TODO of ROLIE.</t>
+      <t>Several places in this document refer to the "information-type" of a Resource (Entry or
+        Feed). This refers to the "term" attribute of an "atom:category" element whose scheme is
+        "urn:ietf:params:rolie:category:information-type". For an Entry, this value can be inherited
+        from it's containing Feed as per <xref target="RFC8322"/>.</t>
+    </section>
+    <section title="Background" anchor="background">
+      <t> In order to effectively protect and secure an endpoint, it is vital to know what the
+        software load of that endpoint is. Software load, the combination of software, patches and
+        installers on a device, represents a significant portion of the endpoint's attack surface.
+        Unfortunately, without a reliable and secure package manager, or a secured and managed
+        operating system with strict software whitelisting, tracking what software is installed on
+        an endpoint is currently not feasible without undue effort. Even attempting to whitelist
+        software is difficult without a way of identifying software and its editions, versions and
+        hotfixes.</t>
+      <t>Software descriptor information, such as that standardized in the ISO 19770-2:2015 Software
+        Identification Tag (SWID) format or expressed in proprietary enterprise databases, attempts
+        to provide as much data about this software as possible. </t>
+      <t>Once this information is expressed, it needs to be stored and shared to internal and
+        external parties. ROLIE provides a mechanism to handle this sharing in an
+        automation-friendly way.</t>
+    </section>
+    <section title="The &quot;software-descriptor&quot; information type"
+      anchor="infotype-software-descriptor">
+      <t>When an "atom:category" element has a "scheme" attribute equal to
+        "urn:ietf:params:rolie:category:information-type", the "term" attribute defines the
+        information type of the associated resource. A new valid value for this "term":
+        "software-descriptor", is described in this section and registered in <xref
+          target="iana-software-descriptor"/>. When this value is used, the resource in question is
+        considered to have an information-type of "software-descriptor" as per <xref
+          target="RFC8322"/> Section 7.1.2.</t>
+      <t>The "software-descriptor" information type represents any static information that describes
+        a piece of software. This document uses the definition of software provided by <xref
+          target="RFC4949"/>. Note that as per this definition, this information type pertains to
+        static software, that is, code on the disc. The "software-descriptor" information type is
+        intended to provide a category for information that does one or more of the following:<list
+          style="hanging">
+          <t hangText="identifies and characterizes software:"> information that provides quantative
+            and qualitative data describing software. This information identifies and charaterizes a
+            given instance of software.</t>
+          <t hangText="provides software installer metadata:"> information about software used to
+            install other software. This metadata identifies, and characterizes a software
+            installation package or media.</t>
+          <t hangText="describes stateless installation metadata:"> information that describes the
+            software post-deployment, such as files that may be deployed during an installation. It
+            is expected that this metadata is produced generally for a given installation, and may
+            not exactly match the actual installed files on a given endpoint.</t>
+        </list></t>
+      <t> Provided below is a non-exhaustive list of information that may be considered to be of a
+        software-descriptor information type. <list style="symbols">
+          <t>Naming information: IDs and names that aid in the identification of a piece of software </t>
+          <t>Version and patching information: Version numbers, patch identifiers, or other
+            information that relates to software updates and patches. </t>
+          <t>Vendor and source information: Includes where the software was developed or
+            distributed, as well as where the software installation media may be located.</t>
+          <t>Payload and file information: information that describes or enumerates the files and
+            folders that make up the piece of software, and information about those files.</t>
+          <t>Descriptive information and data: Any information that otherwise characterizes a piece
+            of software, such as libraries, runtime environments, target operating systems, intended
+            purpose or audience, etc.</t>
+        </list>
+      </t>
+      <t>It is important to note that software descriptor information is static for a given piece of
+        software. That is, the information expressed is the data that doesn't change from the
+        publication of the software to its final install. Information about the current status (e.g.
+        install location, memory usage, CPU usage, launch parameters, job progress, etc.), is out of
+        scope of this information type.</t>
+    </section>
+    <section title="rolie:property Extensions">
+      <t>This document registers new valid rolie:property names as follows:</t>
+      <section title="urn:ietf:params:rolie:property:swd:swname" anchor="prop-swd-swname">
+        <t>This property provides an exposure point for the plain text name of the software being
+          described. Naming of software is not a well standardized process, and software names can
+          change between product versions or editions. As such, care should be taken that this value
+          is set as consistently as possible by generating it directly from an attached software
+          descriptor resource.</t>
+      </section>
+      <section title="urn:ietf:params:rolie:property:swd:swversion" anchor="prop-swd-swversion">
+        <t>This property provides an exposure point for the version of the software being described.
+          This value should be generated or taken from the software descriptor linked to by the
+          entry. This helps avoid, but does not prevent, inconsistent versioning schemes being
+          shared.</t>
+      </section>
+      <section title="urn:ietf:params:rolie:property:swd:swcreator" anchor="prop-swd-swcreator">
+        <t>This property provides an exposure point for a plain text name of the creator of the
+          software being described. This is in many cases an organization or company, but certainly
+          could be a single person. Most software descriptor formats include this information, and
+          where possible, this property should be set equal to that value.</t>
+      </section>
+    </section>
+    <section title="Data format requirements" anchor="ext-synd-format">
+      <t>This section defines usage guidance and additional requirements related to data formats
+        above and beyond those specified in <xref target="RFC8322"/>. The following formats are
+        expected to be commonly used to express software descriptor information. For this reason,
+        this document specifies additional requirements to ensure interoperability.</t>
+      <section title="The ISO SWID 2015 format" anchor="ext-synd-format-iso2016">
+        <section title="Description">
+          <t>ISO/IEC 19770-2:2015 defines a software record data format referred to as a "SWID Tag".
+            It provides several tag types: <list style="symbols">
+              <t>primary: provides descriptive and naming information about software, </t>
+              <t>patch: describes non-standalone software meant to patch existing software, </t>
+              <t>corpus: describes the software installation media that installs a given piece of
+                software,</t>
+              <t>supplemental: provides additional metadata to be deployed alongside a tag. </t>
+            </list></t>
+          <t>For a more complete overview as well as normative requirements, refer to ISO/IEC
+            19770-2:2015 <xref target="SWID"/>.</t>
+          <t> For additional requirements and guidance around creation of SWID Tags, consult NIST
+            Internal Report 8060 <xref target="NISTIR8060"/>. </t>
+        </section>
+        <section title="Requirements">
+          <t> For an Entry to be considered as a "SWID Tag Entry", it MUST fulfill the following
+            conditions: <list style="symbols">
+              <t>The information-type of the Entry is "software-descriptor". For a typical Entry,
+                this is derived from the information type of the Feed it is contained in. For a
+                standalone Entry, this is provided by an "atom:category" element.</t>
+              <t>The document linked to by the "href" attribute of the "atom:content" element is a
+                2015 SWID Tag per ISO/IEC 19770-2:2015. </t>
+            </list></t>
+          <t>A "SWID Tag Entry" MUST conform to the following requirements: <list style="symbols">
+              <t>The value of the "type" attribute of the "atom:content" element MUST be
+                "application/xml".</t>
+              <t>There MUST be one "rolie:property" with the "name" attribute equal to
+                "urn:ietf:params:rolie:property:content-id" and the "value" attribute exactly equal
+                to the "&lt;tagid&gt;" element in the attached SWID Tag. This allows ROLIE consumers
+                to more easily search for SWID tags without needing to download the tag itself.</t>
+              <t>There MUST be one "rolie:property" with the "name" attribute equal to
+                "urn:ietf:params:rolie:property:swd:swname", and the "value" attribute equal to the
+                value of the "&lt;name&gt;" element in the attached SWID Tag. As above, this helps
+                ROLIE consumers search and filter Entries.</t>
+
+              <t>There MAY be a property element with the "name" attribute equal to
+                "urn:ietf:params:rolie:property:swd:swversion". When this property appears, its
+                value MUST be equal to the value of the "version" element in the attached SWID
+                Tag.</t>
+            </list></t>
+        </section>
+      </section>
+      <section anchor="the-concise-swid-format" title="The Concise SWID format">
+        <section title="Description">
+          <t>The Concise SWID (COSWID) format is an alternative representation of the SWID Tag
+            format using a Concise Binary Object Representation (CBOR) encoding. CBOR provides the
+            format with a reduced size that is more suitable for constrained devices. COSWID provides
+            the same features and attributes as are specified in ISO 19770-2:2015, plus: <list
+              style="symbols">
+              <t>a straight forward method to sign and encrypt using COSE, and</t>
+              <t>additional attributes that provide an improved structure to include file hashes
+                intended to be used as Reference Integrity Measurements (RIM).</t>
+            </list></t>
+          <t>For more information and the complete specification, refer to the COSWID internet draft
+              <xref target="I-D.ietf-sacm-coswid"/>.</t>
+        </section>
+        <section title="Requirements">
+          <t> For an Entry to be considered as a "COSWID Tag Entry", it MUST fulfill the following
+            conditions: <list style="symbols">
+              <t>The information-type of the Entry is "software-descriptor". For a typical Entry,
+                this is derived from the information-type of the Feed it is contained in. For a
+                standalone Entry, this is provided by an "atom:category" element.</t>
+              <t>The document linked to by the "href" attribute of the "atom:content" element is a
+                COSWID Tag per <xref target="I-D.ietf-sacm-coswid"/>
+              </t>
+            </list></t>
+          <t>A "COSWID Tag Entry" MUST conform to the following requirements: <list style="symbols">
+              <t>The value of the "type" attribute of the atom:content element MUST be
+                "application/coswid+cbor".</t>
+              <t>There MUST be one "rolie:property" with the "name" attribute equal to
+                "urn:ietf:params:rolie:property:content-id" and the "value" attribute exactly equal
+                to the "tag-id" element in the attached COSWID Tag (mapped to integer 0). This
+                allows ROLIE consumers to more easily search for COSWID tags without needing to
+                download the tag itself.</t>
+              <t>There MUST be one "rolie:property" with the "name" attribute equal to
+                "urn:ietf:params:rolie:property:swd:swname", and the "value" attribute equal to the
+                value of the "swid-name" element in the attached COSWID Tag (mapped to the integer
+                1). As above, this helps ROLIE consumers search and filter
+                Entries.</t>
+              <t>There MAY be a property element with the "name" attribute equal to
+                "urn:ietf:params:rolie:property:swd:swversion". When this property appears, it's
+                value MUST be equal to the value of the tag-version element in the attached COSWID
+                Tag (mapped to the integer 12).</t>
+            </list></t>
+        </section>
+      </section>
+    </section>
+    <section title="atom:link Extensions" anchor="ext-synd-entries-link">
+      <t>This section defines additional link relationships that implementations MUST support. These
+        relationships are not registered in the Link Relation IANA table as their use case is too
+        narrow. Each relationship is named and described.</t>
+      <texttable anchor="links-software-descriptor-table"
+        title="Link Relations for Resource-Oriented Lightweight Indicator Exchange" style="all">
+        <ttcol align="left">Name</ttcol>
+        <ttcol align="left">Description</ttcol>
+        <c>ancestor</c>
+        <c>Links to a software descriptor resource that defines an ancestor of the software being
+          described by this Entry. This is usually a previous version of the software.</c>
+        <c>descendent</c>
+        <c>Links to a software descriptor resource that defines an descendent of the software being
+          described by this Entry. This is usually a more recent version or edition of the
+          software.</c>
+        <c>patches</c>
+        <c>Links to a software descriptor resource that defines the software being patched by this
+          software</c>
+        <c>patchedby</c>
+        <c>Links to a software descriptor resource that defines the patch or update itself that can
+          be or has been applied to this software.</c>
+        <c>requires</c>
+        <c>Links to a software descriptor resource that defines a piece of software required for
+          this software to function properly, i.e., a dependency. </c>
+        <c>requiredBy</c>
+        <c>Links to a software descriptor resource that defines a piece of software that requires
+          this software to function properly. </c>
+        <c>installs</c>
+        <c>Links to a software descriptor resource that defines the software that is installed by
+          this software.</c>
+        <c>installedBy</c>
+        <c>Links to a software descriptor resource that defines the software package that installs
+          this software.</c>
+        <c>patchesVulnerability</c>
+        <c>Links to a vulnerability that this software update fixes. Used for software descriptors
+          that describe software patches or updates.</c>
+        <c>hasVulnerability</c>
+        <c>Links to a vulnerability description object that details a vulnerability that this
+          software has.</c>
+      </texttable>
+    </section>
+    <section title="IANA Considerations">
+      <section title="software-descriptor information-type" anchor="iana-software-descriptor">
+        <t>IANA has added an entry to the "ROLIE Security Resource Information Type Sub-Registry"
+          registry located at <eref
+            target="https://www.iana.org/assignments/rolie/category/information-type"/> . </t>
+        <t>The entry is as follows:<list>
+            <t>name: software-descriptor</t>
+            <t>index: TBD</t>
+            <t>reference: This document, <xref target="infotype-software-descriptor"/></t>
+          </list></t>
+      </section>
+      <section title="swd:swname property">
+        <t>IANA has added an entry to the "ROLIE URN Parameters" registry located in <eref
+            target="https://www.iana.org/assignments/rolie/"/>.</t>
+        <t>The entry is as follows:<list>
+            <t>name: property:swd:swname</t>
+            <t>Extension IRI: urn:ietf:params:rolie:property:swd:swname</t>
+            <t>Reference: This document, <xref target="prop-swd-swname"/></t>
+            <t>Subregistry: None</t>
+          </list></t>
+      </section>
+      <section title="swd:swversion property">
+        <t>IANA has added an entry to the "ROLIE URN Parameters" registry located in <eref
+            target="https://www.iana.org/assignments/rolie/"/>.</t>
+        <t>The entry is as follows:<list>
+            <t>name: property:swd:swversion</t>
+            <t>Extension IRI: urn:ietf:params:rolie:property:swd:swversion</t>
+            <t>Reference: This document, <xref target="prop-swd-swname"/></t>
+            <t>Subregistry: None</t>
+          </list></t>
+      </section>
+      <section title="swd:swcreator property">
+        <t>IANA has added an entry to the "ROLIE URN Parameters" registry located in <eref
+            target="https://www.iana.org/assignments/rolie/"/>.</t>
+        <t>The entry is as follows:<list>
+            <t>name: property:swd:swcreator</t>
+            <t>Extension IRI: urn:ietf:params:rolie:property:swd:swcreator</t>
+            <t>Reference: This document, <xref target="prop-swd-swname"/></t>
+            <t>Subregistry: None</t>
+          </list></t>
+      </section>
+    </section>
+    <section title="Security Considerations">
+      <t>Use of this extension implies dealing with the security implications of both ROLIE and of
+        software descriptors in general. As with any data, care should be taken to verify the
+        trustworthiness and veracity of the descriptor information to the fullest extent possible. </t>
+      <t>Ideally, software descriptors should be signed by the software manufacturer, or
+        signed by whichever agent processed the source code. Software descriptor documents from
+        these sources are more likely to be accurate than those generated by scraping installed
+        software. </t>
+      <t>These "authoritative" sources of software descriptor content should consider additional
+        security for their ROLIE repository beyond the typical recommendations, as the central
+        importance of the repository is likely to make it a target.</t>
+      <t>Version information is often represented differently across manufacturers and even across
+        product releases. If using software version information for low fault tolerance comparisons
+        and searches, care should be taken that the correct version scheme is being used.</t>
+    </section>
+  </middle>
+  <back>
+    <references title="Normative References"
+      >&RFC2119;&RFC5070;&RFC4949;&RFC8322;&I-D.ietf-sacm-coswid; &RFC8174;<reference target="https://www.iso.org/standard/65666.html" anchor="SWID">
+        <front>
+          <title >Information technology - Software asset management - Part 2: Software
+            identification tag</title>
+          <author>
+            <organization/>
+          </author>
+          <date year="2015" month="October" day="01"/>
+        </front>
+        <seriesInfo name="ISO/IEC" value="19770-2:2015"/>
+      </reference>
+      <reference anchor="NISTIR8060" target="https://doi.org/10.6028/NIST.IR.8060">
+        <front>
+          <title>Guidelines for the Creation of Interoperable Software Identification (SWID)
+            Tags</title>
+          <author initials="D." surname="Waltermire" fullname="David Waltermire">
+            <organization>National Institute for Standards and Technology</organization>
+          </author>
+          <author initials="B.A." surname="Cheikes" fullname="Brant A. Cheikes">
+            <organization>The MITRE Corporation</organization>
+          </author>
+          <author initials="L." surname="Feldman" fullname="Larry Feldman">
+            <organization>G2, Inc</organization>
+          </author>
+          <author initials="G." surname="Witte" fullname="Greg Witte">
+            <organization>G2, Inc</organization>
+          </author>
+          <date year="2016" month="April"/>
+        </front>
+        <seriesInfo name="NISTIR" value="8060"/>
+      </reference>
+    </references>
+    <section title="Schema" anchor="appendix-schema">
+      <t>This document does not require any schema extensions.</t>
+    </section>
+    <section title="Examples of Use">
+      <t>Use of this extension in a ROLIE repository will not typically change that repository's
+        operation. As such, the general examples provided by the ROLIE core document would serve as
+        examples. Provided below is a sample software descriptor ROLIE entry: </t>
+      <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+        <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+  <?xml version="1.0" encoding="UTF-8"?>
+  <entry xmlns="http://www.w3.org/2005/Atom"
+    xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0">
+    <id>dd786dba-88e6-440b-9158-b8fae67ef67c</id>
+    <title>Sample Software Descriptor</title>
+    <published>2015-08-04T18:13:51.0Z</published>
+    <updated>2015-08-05T18:13:51.0Z</updated>
+    <summary>A descriptor for a piece of software published by this
+    organization. </summary>
+    <link rel="self" href="http://www.example.org/rolie/SWD/123456"/>
+    <link rel="feed" href="http://www.example.org/rolie/SWD/"/>
+    <link rel="requires" href="http://www.example.org/rolie/SWD/78430"/>
+    <rolie:property name=urn:ietf:params:rolie:property:swd:swname
+        value="Example Software Name"/>
+    <category
+        scheme="urn:ietf:params:rolie:category:information-type"
+        term="software-descriptor"/>
+    <rolie:format 
+        ns="http://standards.iso.org/iso/19770/-2/2015/schema.xsd"/>
+    <content type="application/xml" 
+        src="http://www.example.org/rolie/SWD/123456/data"/>
+  </entry>]]></artwork>
+      </figure>
+    </section>
+  </back>
+</rfc>

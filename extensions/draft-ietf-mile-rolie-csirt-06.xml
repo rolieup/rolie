@@ -1,0 +1,576 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd"[
+  <!ENTITY xml-names SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml4/reference.W3C.REC-xml-names-20091208.xml">
+  <!ENTITY RFC2119 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+  <!ENTITY RFC2141 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2141.xml">
+  <!ENTITY RFC2616 SYSTEM
+  "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2616.xml">
+  <!ENTITY RFC3444 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3444.xml">
+  <!ENTITY RFC3688 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3688.xml">
+  <!ENTITY RFC3986 SYSTEM
+  "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3986.xml">
+  <!ENTITY RFC4287 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4287.xml">
+  <!ENTITY RFC4949 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4949.xml">
+  <!ENTITY RFC5070 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5070.xml">
+  <!ENTITY RFC5023 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5023.xml">
+  <!ENTITY RFC5005 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5005.xml">
+  <!ENTITY RFC6545 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6545.xml">
+  <!ENTITY RFC8174 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml">
+  <!ENTITY RFC6546 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6546.xml">
+  <!ENTITY RFC5070bis SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-ietf-mile-rfc5070-bis-25.xml">
+  <!ENTITY RFC8322 SYSTEM
+  "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8322.xml">
+    <!ENTITY RFC7970 SYSTEM
+  "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.7970.xml">
+    <!ENTITY misp SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml3/reference.I-D.draft-dulaunoy-misp-core-format-07.xml">
+]>
+<rfc ipr="trust200902" category="std" docName="draft-ietf-mile-rolie-csirt-06">
+    <!-- Working draft of supporting document for ROLIE -->
+    <?rfc compact="yes"?>
+    <?rfc subcompact="no"?>
+    <?rfc toc="yes"?>
+    <?rfc symrefs="yes"?>
+    <front>
+        <title abbrev="ROLIE CSIRT">Definition of ROLIE CSIRT Extension</title>
+        <author initials="S.A." surname="Banghart" fullname="Stephen A. Banghart">
+            <organization abbrev="NIST">National Institute of Standards and
+                Technology</organization>
+            <address>
+                <postal>
+                    <street>100 Bureau Drive</street>
+                    <city>Gaithersburg</city>
+                    <region>Maryland</region>
+                    <country>USA</country>
+                </postal>
+                <phone>(301)975-4288</phone>
+                <email>sab3@nist.gov</email>
+            </address>
+        </author>
+        <author initials="J.P." surname="Field" fullname="John P. Field">
+            <organization abbrev="Pivotal">Pivotal Software, Inc.</organization>
+            <address>
+                <postal>
+                    <street>625 Avenue of the Americas</street>
+                    <city>New York</city>
+                    <region>New York</region>
+                    <country>USA</country>
+                </postal>
+                <phone>(646)792-5770</phone>
+                <email>jfield@pivotal.io</email>
+            </address>
+        </author>
+        <date year="2019"/>
+        <area>Security</area>
+        <workgroup>MILE Working Group</workgroup>
+        <abstract>
+            <t>This document extends the Resource-Oriented Lightweight Information Exchange (ROLIE)
+                core to add the Indicator and Incident information types, relevant categories, and related requirements needed to
+                support Computer Security Incident Response Team (CSIRT) use cases. Additional
+                supporting requirements are also defined that describe the use of specific formats
+                and link relations pertaining to the new information types.</t>
+        </abstract>
+    </front>
+    <middle>
+        <section title="Introduction" anchor="starting-intro">
+            <t>Threats to computer security are evolving ever more rapidly as time goes on. As
+                software increases in complexity, the number of vulnerabilities in systems and
+                networks can increase exponentially. Threat actors looking to exploit these
+                vulnerabilities are making more frequent and more widely distributed attacks across
+                a large variety of systems. The adoption of liberal information sharing amongst
+                attackers allows a discovered vulnerability to be shared and used to attack a
+                vulnerable system within a narrow window of time. As the skills and knowledge
+                required to identify and combat these attacks become more and more specialized, even
+                a well established and secure system may find itself unable to quickly respond to an
+                incident. Effective identification of and response to a sophisticated attack
+                requires open cooperation and collaboration between defending operators, software
+                vendors, and end-users. To improve the timeliness of responses, automation must be
+                used to acquire, contextualize, and put to use shared computer security
+                information.</t>
+
+            <t> Computer Security Incident Response Teams (CSIRTs) share two primary forms of information: incidents and indicators. Using these
+                forms of information, analysts are able to perform a wide range of activities both
+                proactive and reactive to improve the security of their systems. </t>
+            <t>Incident information describes a cyber security incident. Such information may
+                include attack characteristics, information about the attacker, and attack vector
+                data. Sharing this information helps analysts within the sharing community to
+                inoculate their systems against similar attacks, providing proactive protection.</t>
+
+            <t>Indicator information describes the symptoms or necessary pre-conditions of an
+                attack. Everything from system vulnerabilities to unexpected network traffic can
+                help analysts secure systems and prepare for an attack. Making this information
+                available for sharing aids in the proactive defense of systems both within an
+                operating unit but also for any CSIRTs that are part of a sharing consortium.</t>
+
+            <t>As a means to bring automation of content discovery and dissemination into the CSIRT
+                domain, this specification provides an extension to the Resource-Oriented
+                Lightweight Information Exchange (ROLIE) core <xref target="RFC8322"/> designed to
+                address CSIRT use cases. The primary purpose of this extension is to define two new
+                information types: incident, and indicator, along with formats and link relations
+                that support these information-types.</t>
+
+        </section>
+        <section title="Terminology" anchor="ext-terminology">
+            <t>The key words "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL NOT," "SHOULD," "SHOULD
+                NOT," "RECOMMENDED," "MAY," and "OPTIONAL" in this document are to be interpreted as
+                described in <xref target="RFC8174"/>. </t>
+            <t>Definitions for some of the common computer security-related terminology used in this
+                document can be found in Section 2 of <xref target="RFC5070"/>.</t>
+            <t>As an extension of <xref target="RFC8322"/>, this document refers to many terms
+                defined in that document. In particular, the use of "Entry" and "Feed" are aligned
+                with the definitions presented there.</t>
+            <t>Several places in this document refer to the "information-type" of a Resource (Entry
+                or Feed). This refers to the "term" attribute of an "atom:category" element whose
+                scheme is "urn:ietf:params:rolie:category:information-type". For an Entry, this
+                value can be inherited from it's containing Feed as per <xref target="RFC8322"
+                />.</t>
+        </section>
+        <section title="Information-type Extensions" anchor="infotype">
+            <section title="The &quot;incident&quot; information type" anchor="infotype-incident">
+                <t>When an "atom:category" element has a "scheme" attribute equal to
+                    "urn:ietf:params:rolie:category:information-type", the "term" attribute defines
+                    the information type of the associated resource. A new valid "term" value for
+                    this "scheme": "incident", is described in this section, and registered in <xref
+                        target="iana-incident"/>.</t>
+                <t>The &quot;incident&quot; information type represents any information describing
+                    or pertaining to a computer security incident. This document uses the definition
+                    of incident provided by <xref target="RFC4949"/>. Provided below is a
+                    non-exhaustive list of information that may be considered to be an incident
+                    information type. <list style="symbols">
+                        <t>Timing information: start and end times for the incident and/or the
+                            response.</t>
+                        <t>Descriptive information: plain text or machine readable data that
+                            provides some degree of description of the incident itself.</t>
+                        <t>Response information: the methods and results of a response to the
+                            incident.</t>
+                        <t>Meta and contact information: data about the CSIRT that recorded the
+                            information, or the operator that enacted the response.</t>
+                        <t>Effect and result information: data that describes the effects of an
+                            incident, or what the final results of the incident are.</t>
+                    </list>
+                </t>
+                <t>Note again that this list is not exhaustive, any information that is in the
+                    abstract realm of an incident should be classified under this
+                    information-type.</t>
+            </section>
+            <section title="The &quot;indicator&quot; information type" anchor="infotype-indicator">
+                <t>When an "atom:category" element has a "scheme" attribute equal to
+                    "urn:ietf:params:rolie:category:information-type", the "term" attribute defines
+                    the information type of the associated resource. A new valid "term" value for
+                    this "scheme": "indicator", is described in this section, and registered in
+                        <xref target="iana-indicator"/>.</t>
+                <t> The &quot;indicator&quot; information type represents computer security
+                    indicators or any information surrounding them. This document uses the
+                    definition of indicator provided by <xref target="RFC4949"/>. Some examples of
+                    indicator information are provided below, but note that indicator is defined in
+                    an abstract sense, to be understood as a flexible and widely-applicable
+                    definition. <list style="symbols">
+                        <t>Specific vulnerabilities that indicate a vector for attack.</t>
+                        <t>Signs of malicious reconnaissance.</t>
+                        <t>Definitions of patterns of other indicators.</t>
+                        <t>Events that may indicate an attack and information regarding those
+                            events.</t>
+                        <t>Meta information about the collecting agent.</t>
+                    </list>
+                </t>
+                <t>This list is intended to provide examples of the indicator information-type, not
+                    to define it.</t>
+            </section>
+        </section>
+        <section title="Data format requirements" anchor="ext-synd-format">
+            <t>This section defines usage guidance and additional requirements related to data
+                formats above and beyond those specified in <xref target="RFC8322"/>. The following
+                formats are expected to be commonly used to express software descriptor information.
+                For this reason, this document specifies additional requirements to ensure
+                interoperability.</t>
+            <section title="Incident Object Description Exchange Format"
+                anchor="ext-synd-format-iodef">
+                <section title="Description">
+                    <t>The Incident Object Description Exchange Format (IODEF) is a format for
+                        representing computer security information commonly exchanged between
+                        Computer Security Incident Response Teams (CSIRTs) or other operational
+                        security teams. </t>
+                    <t>IODEF conveys indicators, incident reports, response activities, and related
+                        meta-data in an XML serialization. This information is formally structured
+                        in order to support and encourage automated machine-to-machine security
+                        communication, as well as enhanced processing at the endpoint.</t>
+                    <t>The full IODEF specification <xref target="RFC7970"/> provides further
+                        high-level discussion and technical details.</t>
+                </section>
+                <section title="Requirements">
+                    <t> For an Entry to be considered as a "IODEF Entry", it MUST fulfill the
+                        following conditions: <list style="symbols">
+                            <t>The information-type of the Entry is "indicator" or "incident". For a
+                                typical Entry, this is derived from the information type of the Feed
+                                it is contained in. For a standalone Entry, this is provided by an
+                                "atom:category" element.</t>
+
+                            <t>The document linked to by the "href" attribute of the "atom:content"
+                                element is an IODEF document as per <xref target="RFC7970"/>
+                            </t>
+                        </list></t>
+                    <t>A "IODEF Entry" MUST conform to the following requirements: <list
+                            style="symbols">
+                            <t>The value of the "type" attribute of the "atom:content" element MUST
+                                be "application/xml".</t>
+                            <t>There MUST be at least one "rolie:property" with the "name" attribute
+                                equal to "urn:ietf:params:rolie:property:content-id" and the "value"
+                                attribute exactly equal to the "&lt;Indicator-ID&gt;" or the
+                                "&lt;Incident-ID&gt;" element in the attached IODEF document. This
+                                allows for ROLIE consumers to more easily search for IODEF documents
+                                without needing to download the document itself.</t>
+                        </list></t>
+                </section>
+            </section>
+            <section title="Structured Threat Information eXpression (STIX) Format"
+                anchor="ext-synd-format-stix">
+                <section title="Description">
+                    <t> STIX is a structured language for describing a wide range of security
+                        resources. STIX approaches the problem with a focus on flexibility,
+                        automation, readability, and extensibility. </t>
+                    <t>The full STIX specification <xref target="stix2"/> provides further
+                        high-level discussion and technical details.</t>
+                </section>
+                <section title="Requirements">
+                    <t> For an Entry to be considered as a "STIX Entry", it MUST fulfill the
+                        following conditions: <list style="symbols">
+                            <t>The information-type of the Entry is "indicator" or "incident". For a
+                                typical Entry, this is derived from the information type of the Feed
+                                it is contained in. For a standalone Entry, this is provided by an
+                                "atom:category" element.</t>
+
+                            <t>The document linked to by the "href" attribute of the "atom:content"
+                                element is a STIX object as per <xref target="stix2"/>
+                            </t>
+                        </list></t>
+                    <t>A "STIX Entry" MUST conform to the following requirements: <list
+                            style="symbols">
+                            <t>The value of the "type" attribute of the "atom:content" element MUST
+                                be "application/xml" or "application/json".</t>
+                            <t>There MUST be at least one "rolie:property" with the "name" attribute
+                                equal to "urn:ietf:params:rolie:property:content-id" and the "value"
+                                attribute exactly equal to the "&lt;id&gt;" element in the attached
+                                STIX object . This allows for ROLIE consumers to more easily search
+                                for STIX objects without needing to download the document
+                                itself.</t>
+                        </list></t>
+                </section>
+            </section>
+            <section title="Malware Information Sharing Platform (MISP) Format">
+                <t>MISP involves documentation, utilities, and formats designed to facilitate the
+                    day-to-day duties of security operators. MISP includes it's own data format that
+                    is used to share between MISP features. While MISP has Feed features that can
+                    share and distribute events, it has support for linking to other sharing methods
+                    like ROLIE.</t>
+                <t> MISP is defined by a family of internet drafts currently being developed in the IETF.
+                    With that in mind, this extension will provide non-normative guidance on using
+                    MISP format data in ROLIE. In the future, when the MISP format is formally
+                    published, this document will be updated to normative requirements around MISP
+                    content. </t>
+                <section title="Creating MISP Event Entries">
+                    <t>MISP content should be syndicated in ROLIE using the following guidance:<list
+                            style="symbols">
+                            <t>The information-type of the Entry is "indicator". For a typical
+                                Entry, this is derived from the information type of the Feed it is
+                                contained in. For a standalone Entry, this is provided by an
+                                "atom:category" element.</t>
+                            <t>The document linked to by the "href" attribute of the "atom:content"
+                                element is a MISP Event object as per <xref
+                                    target="I-D.dulaunoy-misp-core-format"/>
+                            </t>
+                            <t>The value of the "type" attribute of the "atom:content" element
+                                should be "application/xml".</t>
+                            <t>There should be at least one "rolie:property" with the "name"
+                                attribute equal to "urn:ietf:params:rolie:property:content-id" and
+                                the "value" attribute exactly equal to the "&lt;uuid&gt;" element in
+                                the attached MISP Event. This allows for ROLIE consumers to more
+                                easily search for MISP Events without needing to download the
+                                document itself.</t>
+                            <t> It is also recommended to expose information in the ROLIE Entry that
+                                is required and recommended to expose in the MISP Manifest format.
+                                This ensures better compatibility between a ROLIE Feed and a MISP
+                                Manifest. <list>
+                                    <t> The following fields are required by the MISP draft: info,
+                                        Orgc, timestamp, date </t>
+                                    <t> The following fields are recommended by the MISP draft:
+                                        analysis, threat_level_id </t>
+                                </list>
+                            </t>
+
+                        </list></t>
+                </section>
+                <section title="MISP Feeds and Manifests">
+                    <t>MISP Feeds are hosted lists of MISP events, each event represented by its
+                        UUID. Users request Events on a one-by-one basis and are served the full
+                        Event on each request.</t>
+                    <t>MISP Manifest files list MISP events by their UUIDs as well, but provide a
+                        variety of metadata for each Event inline. After examining the minimized and
+                        stripped Event in the manifest, a user could search for the Event UUID of
+                        interest in a locally located folder of Event files where the file name is
+                        the UUID of the Event.</t>
+                    <t>ROLIE hosting MISP data would operate as a combination of these approaches.
+                        Each ROLIE Feed would contain a list of Event Entries, each with metadata
+                        and identifying information about a given Event. Should the user be
+                        interested in the Event, the Event Entry provides a direct link to download
+                        the full Event. In short, a ROLIE MISP Feed is minimally mappable to a MISP
+                        Manifest file where a resolvable link to the MISP Event was injected into
+                        each Event described in the Manifest.</t>
+                    <t>With that in mind, a MISP Feed as well as a MISP Manifest with attached local
+                        file list could be fully converted and hosted as a ROLIE repository. As a
+                        lower overhead alternative, a ROLIE server could simply provide a view into
+                        MISP data.</t>
+                </section>
+            </section>
+        </section>
+
+        <section title="atom:link Extensions" anchor="ext-synd-entries-link">
+            <t>This section defines additional link relationships that implementations MUST support.
+                These relationships are not registered in the Link Relation IANA table as their use
+                case is too narrow. Each relationship is named and described.</t>
+            <t>These relations come in related pairs. The first of each pair is expected to be more
+                common, as they can be determined at the time that the Entry is created. The second
+                of each pair will often need to be added retroactively to an Entry.</t>
+            <section title="Link relations for the 'incident'
+                information-type"
+                anchor="links-inc">
+                <t>If a ROLIE server supports the incident information-type, then these link
+                    relations MUST be supported.</t>
+
+                <texttable anchor="links-inc-table"
+                    title="Link Relations for Resource-Oriented Lightweight Indicator Exchange">
+                    <ttcol align="left">Name</ttcol>
+                    <ttcol align="left">Description</ttcol>
+
+                    <c>indicators</c>
+                    <c>Provides a link to a collection of zero or more instances of cyber security
+                        indicators that are associated with the resource.</c>
+
+                    <c>evidence</c>
+                    <c>Provides a link to a collection of zero or more resources that provides some
+                        proof of attribution for an incident. The evidence may or may not have any
+                        identified chain of custody.</c>
+
+                    <c>attacker</c>
+                    <c>Provides a link to a collection of zero or more resources that provides a
+                        representation of the attacker.</c>
+
+                    <c>vector</c>
+                    <c>Provides a link to a collection of zero or more resources that provides a
+                        representation of the method used by the attacker.</c>
+
+                </texttable>
+            </section>
+            <section title="Link relations for the 'indicator'
+                information-type"
+                anchor="links-ind">
+                <t>If a ROLIE server supports the indicator information-type, then these link
+                    relations MUST be supported.</t>
+
+                <texttable anchor="links-ind-table"
+                    title="Link Relations for Resource-Oriented Lightweight Indicator Exchange">
+                    <ttcol align="left">Name</ttcol>
+                    <ttcol align="left">Description</ttcol>
+                    <c>incidents</c>
+                    <c>Provides a link to a collection of zero or more instances of incident
+                        representations associated with the resource.</c>
+
+                </texttable>
+            </section>
+            <section title="Link relations for both information-types" anchor="links-both">
+                <t>If a ROLIE server supports either the incident or the indicator
+                    information-types, then these link relations MUST be supported.</t>
+                <texttable anchor="links-both-table"
+                    title="Link Relations for Resource-Oriented Lightweight Indicator Exchange">
+                    <ttcol align="left">Name</ttcol>
+                    <ttcol align="left">Description</ttcol>
+
+                    <c>assessments</c>
+                    <c>Provides a link to a collection of zero or more resources that represent the
+                        results of executing a benchmark.</c>
+
+                    <c>reports</c>
+                    <c>Provides a link to a collection of zero or more resources that represent RID
+                        reports.</c>
+
+                    <c>traceRequests</c>
+                    <c>Provides a link to a collection of zero or more resources that represent RID
+                        traceRequests.</c>
+
+                    <c>investigationRequests</c>
+                    <c>Provides a link to a collection of zero or more resources that represent RID
+                        investigationRequests.</c>
+                </texttable>
+            </section>
+
+        </section>
+        <section title="atom:category Extensions">
+            <section title="Newly registered category values" anchor="iodefcategory">
+                <t> This document registers two additional registered atom:category names:
+                    'urn:ietf:params:rolie:category:csirt:iodef:purpose' and
+                    'urn:ietf:params:rolie:category:csirt:iodef:restriction'. These categories
+                    expose important information from inside the attached IODEF document. The
+                    Purpose and Restriction elements are often used to sort or cateogrize IODEF
+                    documents, and in some use cases, determine the security and access permissions
+                    of the document.</t>
+                <t>When the name attribute of the category is
+                    'urn:ietf:params:rolie:category:csirt:iodef:purpose', the value attribute SHOULD
+                    be constrained as per section 3.2 of IODEF <xref target="RFC7970"/>, e.g.
+                    traceback, mitigation, reporting, or other. </t>
+                <t>When the name attribute of the category is
+                    'urn:ietf:params:rolie:category:csirt:iodef:restriction', the value attribute
+                    SHOULD be constrained as per section 3.2 of IODEF <xref target="RFC7970"/>, e.g.
+                    public, need-to-know, private, default. </t>
+            </section>
+            <section title="Expectation and Impact Classes" anchor="normative-expectation-impact">
+                <t>It is frequently the case that an organization will need to triage their
+                    investigation and response activities based upon, e.g., the state of the current
+                    threat environment, or simply as a result of having limited resources. </t>
+                <t> In order to enable operators to effectively prioritize their response activity,
+                    it is RECOMMENDED that feed implementers provide Atom categories that correspond
+                    to the IODEF Expectation and Impact classes. The availability of these feed
+                    categories will enable clients to more easily retrieve and prioritize cyber
+                    security information that has already been identified as having a specific
+                    potential impact, or having a specific expectation. </t>
+                <t> Support for these categories may also enable efficiencies for organizations that
+                    already have established (or plan to establish) operational processes and
+                    workflows that are based on these IODEF classes. </t>
+            </section>
+        </section>
+        <section title="IANA Considerations" anchor="iana">
+            <section title="information-type registrations" anchor="iana-it">
+                <t>IANA has added the following entries to the "ROLIE Security Resource Information
+                    Type Sub-Registry" registry located at <eref
+                        target="https://www.iana.org/assignments/rolie/category/information-type"/>
+                    . </t>
+                <section title="incident information-type" anchor="iana-incident">
+
+                    <t>The entry is as follows:<list>
+                            <t>name: incident</t>
+                            <t>index: TBD</t>
+                            <t>reference: This document, <xref target="infotype-incident"/></t>
+                        </list></t>
+                </section>
+                <section title="indicator information-type" anchor="iana-indicator">
+                    <t>The entry is as follows:<list>
+                            <t>name: indicator</t>
+                            <t>index: TBD</t>
+                            <t>reference: This document, <xref target="infotype-indicator"/></t>
+                        </list></t>
+                </section>
+            </section>
+            <section title="atom:category scheme registrations" anchor="iana-cat">
+                <t> IANA has added the following entries to the "ROLIE URN Parameters" registry
+                    located in <eref target="https://www.iana.org/assignments/rolie/"/>.</t>
+                <section title="category:csirt:iodef:purpose" anchor="iana-cat-purpose">
+                    <t>The entry is as follows:<list>
+                            <t>name: category:csirt:iodef:purpose</t>
+                            <t>Extension IRI: urn:ietf:params:rolie:category:csirt:iodef:purpose</t>
+                            <t>Reference: This document, <xref target="iodefcategory"/></t>
+                            <t>Subregistry: None</t>
+                        </list></t>
+                </section>
+                <section title="category:csirt:iodef:restriction" anchor="iana-cat-restriction">
+                    <t>The entry is as follows:<list>
+                            <t>name: category:csirt:iodef:restriction</t>
+                            <t>Extension IRI:
+                                urn:ietf:params:rolie:category:csirt:iodef:restriction</t>
+                            <t>Reference: This document, <xref target="iodefcategory"/></t>
+                            <t>Subregistry: None</t>
+                        </list></t>
+                </section>
+            </section>
+
+        </section>
+        <section title="Security Considerations">
+            <t>This document implies the use of ROLIE in high-security use cases; as such, added
+                care should be taken to fortify and secure ROLIE repositories and clients using this
+                extension. The guidance in the ROLIE core specification is strongly recommended, and
+                implementers should consider adding additional security measures as they see
+                fit.</t>
+            <t>When providing a private workspace for closed sharing, it is recommended that the
+                ROLIE repository checks user authorization when the user sends a GET request to the
+                service document. If the user is not authorized to send any requests to a given
+                workspace or collection, that workspace or collection should be truncated from the
+                service document in the response. In this way the existence of unauthorized content
+                remains unknown to potential attackers, hopefully reducing attack surface.</t>
+            <t> When sharing IODEF Version 2 documents using a ROLIE server, care should be taken to
+                seperate IODEF Entries into different workspaces based on the "restriction"
+                attribute of the IODEF Document (and therefore the restriction property in ROLIE).
+                Security and access controls are most effectively deployed at the workspace level,
+                as such, keeping private and need-to-know IODEF documents in their own workspace
+                helps prevent unintended information leakage.</t>
+        </section>
+
+    </middle>
+    <back>
+        <references title="Normative References"> &RFC2119; &RFC5070; &RFC8322; &RFC4949; &RFC5023; &RFC8174;
+            &RFC4287; &RFC7970; <reference anchor="stix2"
+                target="https://oasis-open.github.io/cti-documentation/resources#stix-20-specification">
+                <front>
+                    <title>Structured Threat Information Expression 2.0</title>
+                    <author>
+                        <organization abbrev="OASIS CTI"> Organization for the Advancement of
+                            Structured Information Standards (OASIS) Cyber Threat Intelligence (CTI)
+                            Technical Committee </organization>
+                    </author>
+                    <date year="2017" month="July" day="17"/>
+                </front>
+            </reference>
+        </references>
+        <references title = "Informative References"> &misp;
+        </references>
+        <section title="Examples of Use">
+            <t>Use of this extension in a ROLIE repository will not typically change that
+                repository's operation. As such, the general examples provided by the ROLIE core
+                document would serve as examples. Provided below is a sample incident ROLIE entry
+                containing an IODEF document: </t>
+            <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+                <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+  <?xml version="1.0" encoding="UTF-8"?>
+  <entry xmlns="http://www.w3.org/2005/Atom"
+    xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0">
+    <id>f762c77c-057d-45c9-b805-677ab89aaf7c</id>
+    <title>Sample Incident</title>
+    <published>2018-09-04T18:13:51.0Z</published>
+    <updated>2019-08-05T18:13:51.0Z</updated>
+    <summary>A document containing an indicator of comprimise. </summary>
+    <link rel="self" href="http://www.example.org/rolie/CSIRT/123456"/>
+    <link rel="feed" href="http://www.example.org/rolie/CSIRT/"/>
+    <rolie:property name=urn:ietf:params:rolie:property:content-id
+        value="id847201"/>
+    <category
+        scheme="urn:ietf:params:rolie:category:information-type"
+        term="incident"/>
+    <rolie:format 
+        ns="urn:ietf:params:xml:ns:iodef-2.0"/>
+    <content type="application/xml" 
+        src="http://www.example.org/rolie/csirt/123456/data"/>
+  </entry>]]></artwork>
+            </figure>
+            <t>Below is a sample indicator ROLIE entry containing a STIX document:</t>
+            <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+                <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+  <?xml version="1.0" encoding="UTF-8"?>
+  <entry xmlns="http://www.w3.org/2005/Atom"
+    xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0">
+    <id>0c99df51-767f-4940-8a09-c4b607b6fe21</id>
+    <title>Sample Indicator</title>
+    <published>2018-09-04T18:13:51.0Z</published>
+    <updated>2019-08-05T18:13:51.0Z</updated>
+    <summary>A document containing an incident report. </summary>
+    <link rel="self" href="http://www.example.org/rolie/CSIRT/654321"/>
+    <link rel="feed" href="http://www.example.org/rolie/CSIRT/"/>
+    <rolie:property name=urn:ietf:params:rolie:property:content-id
+        value="exmaple:indicator:654321"/>
+    <category
+        scheme="urn:ietf:params:rolie:category:information-type"
+        term="indicator"/>
+    <rolie:format 
+        ns=http://stix.mitre.org/XMLSchema/core/1.2/stix_core.xsd"/>
+    <content type="application/xml" 
+        src="http://www.example.org/rolie/csirt/654321/data"/>
+  </entry>]]></artwork>
+            </figure>
+        </section>
+
+    </back>
+</rfc>

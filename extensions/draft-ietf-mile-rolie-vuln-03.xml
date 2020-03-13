@@ -1,0 +1,293 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd"[
+  <!ENTITY xml-names SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml4/reference.W3C.REC-xml-names-20091208.xml">
+  <!ENTITY RFC2119 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+  <!ENTITY RFC2141 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2141.xml">
+  <!ENTITY RFC2616 SYSTEM
+  "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2616.xml">
+  <!ENTITY RFC3444 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3444.xml">
+  <!ENTITY RFC3688 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3688.xml">
+  <!ENTITY RFC3986 SYSTEM
+  "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.3986.xml">
+  <!ENTITY RFC4287 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4287.xml">
+  <!ENTITY RFC4949 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.4949.xml">
+
+  <!ENTITY RFC5023 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5023.xml">
+  <!ENTITY RFC5005 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.5005.xml">
+  <!ENTITY RFC6545 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6545.xml">
+  <!ENTITY RFC6546 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.6546.xml">
+  <!ENTITY RFC8174 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml">
+  <!ENTITY RFC8322 SYSTEM
+  "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8322.xml">
+
+]>
+<rfc ipr="trust200902" category="std" docName="draft-ietf-mile-rolie-vuln-03">
+    <!-- Working draft of supporting document for ROLIE -->
+    <?rfc compact="yes"?>
+    <?rfc subcompact="no"?>
+    <?rfc toc="yes"?>
+    <?rfc symrefs="yes"?>
+    <front>
+        <title abbrev="ROLIE Vuln">Definition of the ROLIE Vulnerability Extension</title>
+        <author initials="S.A." surname="Banghart" fullname="Stephen A. Banghart">
+            <organization abbrev="NIST">National Institute of Standards and
+                Technology</organization>
+            <address>
+                <postal>
+                    <street>100 Bureau Drive</street>
+                    <city>Gaithersburg</city>
+                    <region>Maryland</region>
+                    <country>USA</country>
+                </postal>
+                <phone>(301)975-4288</phone>
+                <email>stephen.banghart@nist.gov</email>
+            </address>
+        </author>
+        <date year="2019"/>
+        <area>Security</area>
+        <workgroup>MILE Working Group</workgroup>
+        <abstract>
+            <t>This document extends the Resource-Oriented Lightweight Information Exchange (ROLIE)
+                core to add the information type categories and related requirements needed to
+                support Vulnerability use cases. Additional categories, properties, and requirements
+                based on content type enables a higher level of interoperability between ROLIE
+                implementations, and richer metadata for ROLIE consumers. In particular, usage of
+                the Common Vulnerability Enumeration (CVE) <xref target="cve"/> format is discussed.
+            </t>
+        </abstract>
+    </front>
+    <middle>
+        <section title="Introduction" anchor="starting-intro">
+
+            <t>As our software becomes more complex and interconnected, the number of software
+                vulnerabilities exploitable by actors with mal-intent has skyrocketed. Huge amounts
+                of resources have been poured into the preemptive discovery, description, and
+                remediation of these vulnerabilities, but it is often a challenge to share and
+                communicate the results of these efforts. While bad-actors have vast collaboration
+                networks that enable widespread knowledge of any vulnerability, the defensive
+                community at large has no sharing consortium as prevalent. If we are to keep up with
+                the rising difficulty of defending our systems, we must increase our ability to
+                quickly, efficiently, and automatically share information about vulnerabilities. </t>
+
+            <t>The Resource-Oriented Lightweight Information Exchange (ROLIE) <xref target="RFC8322"
+                /> provides a means to share computer security information with an eye towards
+                automation and efficiency. By utilizing ROLIE to share vulnerability data, we get
+                one step closer to establishing automated communication between each party involved
+                in fighting vulnerabilities. A security researcher can send a newly discovered
+                vulnerability to a vulnerability repository, where it is automatically retrieved and
+                consumed by enterprise systems. At this final stage, the enterprise can
+                cross-reference against their enterprise wide software load to begin mitigating the
+                issue.</t>
+
+            <t> This extension to ROLIE introduces new requirements and IANA registrations to allow
+                ROLIE repositories to share vulnerability data in a standardized and compatible
+                way.</t>
+
+            <t>This extension does not attempt to solve the vulnerability data format issue, as this
+                work is being done across standards groups and industry consortiums. Instead, this
+                extension serves to address the problem of sharing these data formats to downstream
+                consumers in a automated and efficient fashion.</t>
+
+
+        </section>
+        <section title="Terminology" anchor="ext-terminology">
+            <t>The key words "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL NOT," "SHOULD," "SHOULD
+                NOT," "RECOMMENDED," "MAY," and "OPTIONAL" in this document are to be interpreted as
+                described in <xref target="RFC8174"/>. </t>
+            <t>As an extension of <xref target="RFC8322"/>, this document refers to many terms
+                defined in that document. In particular, the use of "Entry" and "Feed" are aligned
+                with the definitions presented there.</t>
+            <t>Several places in this document refer to the "information-type" of a Resource (Entry
+                or Feed). This refers to the "term" attribute of an "atom:category" element whose
+                scheme is "urn:ietf:params:rolie:category:information-type". For an Entry, this
+                value can be inherited from it's containing Feed as per <xref target="RFC8322"
+                />.</t>
+            <t>This document uses the definition of "vulnerability" given by <xref target="RFC4949"/>. </t>
+        </section>
+        <section title="The &quot;vulnerability&quot; information type"
+            anchor="infotype-vulnerability">
+            <t>When an "atom:category" element has a "scheme" attribute equal to
+                "urn:ietf:params:rolie:category:information-type", the "term" attribute defines the
+                information type of the associated resource. A new valid value for this attribute:
+                "vulnerability", is described in this section, and registered in <xref
+                    target="iana-it-vuln"/>. When this value is used, the resource in question is
+                considered to have an information-type of "vulnerability" as per <xref
+                    target="RFC8322"/> Section 7.1.2.</t>
+            <t>The "vulnerability" information-type represents any information describing or
+                pertaining to a computer security vulnerability. This document uses the definition
+                of vulnerability provided by <xref target="RFC4949"/>. Provided below is a
+                non-exhaustive list of information that may be considered to be of a vulnerability
+                information type. <list style="symbols">
+                    <t>Fundamental identifying information, such as a global ID or number, that
+                        identifies a given vulnerability.</t>
+                    <t>Descriptive information, including but not limited to: <list>
+                            <t>Severity scoring - using some standardized scoring algorithm or
+                                otherwise,</t>
+                            <t>Execution details - how the vulnerability is exploited</t>
+                            <t>Impact - what the consequences are of this vulnerability</t>
+                            <t>History and provenance data - when was the vulnerability discovered,
+                                when was it reported and to whom,</t>
+                            <t>Plain text description of any of the above</t>
+                        </list>
+                    </t>
+                    <t>Metadata attached to a vulnerability, such as information about the entity
+                        that discovered or described the vulnerability.</t>
+                </list>
+            </t>
+            <t>Note again that this list is not exhaustive: any information that is in the abstract
+                realm of a vulnerability should be classified under this information-type. The final
+                decision as to the information type of an Entry is up to the provider and author of
+                the Entry.</t>
+        </section>
+
+        <section title="Common Vulnerability Enumeration (CVE) Format" anchor="ext-synd-format">
+            <section title="Description">
+                <t>The Common Vulnerability Enumeration (CVE) provides a globally unique identifier
+                    for vulnerabilities. Each CVE provides a CVE-ID, by which a vulnerability can be
+                    referred to in any context, as well as descriptive information about that
+                    vulnerability. </t>
+                <t>For more information and in-depth specifications, please see <xref target="cve"
+                    />.</t>
+                <t>CVE provides a valuable set of information fields, but itself does not provide a
+                    standardized data format. This extension provides standardization around two
+                    common serializations of the CVE standard, both used by the National Institute
+                    of Standards and Technology (NIST) National Vulnerability Database (NVD). The
+                    NVD provides a repository of "CVE Entries" available in either serialization
+                    format. The first format is XML-based: the NIST NVD CVE Entry format <xref
+                        target="nvdcvexml"/>, and the second is JSON-based: NIST NVD JSON CVE Entry
+                    Format <xref target="nvdcvejson"/>. These two representations of a CVE are
+                    equivalent, and can be losslessly converted.</t>
+                <t>This section defines usage guidance and additional requirements above and beyond
+                    those specified in <xref target="RFC8322"/> that apply when CVE data formats are
+                    in use. </t>
+            </section>
+            <section title="Requirements">
+                <t> For an Entry to be considered a "CVE Entry", it MUST fulfill the following
+                    conditions: <list style="symbols">
+                        <t>The information-type of the Entry is "vulnerability". For a typical
+                            Entry, this is derived from the information type of the Feed it is
+                            contained in. For a standalone Entry, this is provided by an
+                            "atom:category" element.</t>
+                        <t>The document linked to by the "ref" attribute of the "atom:content"
+                            element is a CVE Entry as defined by either <xref target="nvdcvexml"/>
+                            or <xref target="nvdcvejson"/>. Other well-defined CVE serializations
+                            would be valid but would not be subject to the following requirements,
+                            reducing their interoperability. </t>
+                    </list></t>
+                <t>The XML and JSON NVD formats follow different requirements. </t>
+                <t>A "XML CVE Entry" MUST conform to the following requirements: <list
+                        style="symbols">
+                        <t>The value of the "type" attribute of the "atom:content" element MUST be
+                            "application/xml".</t>
+                        <t>There MUST be one "rolie:property" with the "name" attribute equal to
+                            "urn:ietf:params:rolie:property:content-id" and the "value" attribute
+                            exactly equal to the "&lt;name&gt;" element in the attached CVE Entry.
+                            This allows for ROLIE consumers to more easily search for CVE Entries
+                            without needing to download the entry itself.</t>
+                    </list></t>
+                <t>A "JSON CVE Entry" MUST conform to the following requirements: <list
+                        style="symbols">
+                        <t>The value of the "type" attribute of the "atom:content" element MUST be
+                            "application/json".</t>
+                        <t>There MUST be one "rolie:property" with the "name" attribute equal to
+                            "urn:ietf:params:rolie:property:content-id" and the "value" attribute
+                            exactly equal to the "cve:{cve_data_meta":{ID}}" element in the attached
+                            CVE Entry. This allows for ROLIE consumers to more easily search for CVE
+                            Entries without needing to download the entry itself.</t>
+                    </list></t>
+            </section>
+        </section>
+
+        <section title="Link relations for the 'vulnerability'
+                information-type"
+            anchor="links-inc">
+            <t> The atom:link element contains a "rel" attribute that describes the semantic meaning
+                of the given link.</t>
+            <t>If the category of an Entry is the vulnerability information type, then the following
+                link relations MUST be respected, that is, not removed, by the server.
+                Implementations can provide extra functionality by understanding the semantic
+                meaning of these relations.</t>
+            <texttable anchor="links-inc-table"
+                title="Link Relations for Resource-Oriented Lightweight Indicator Exchange">
+                <ttcol align="left">Name</ttcol>
+                <ttcol align="left">Description</ttcol>
+                <c>severity</c>
+                <c>Links to a document describing or scoring the severity of this vulnerability.</c>
+
+            </texttable>
+        </section>
+
+
+        <section title="IANA Considerations" anchor="iana">
+            <section title="information-type registrations" anchor="iana-it">
+                <t>IANA has added the following entries to the "ROLIE Security Resource Information
+                    Type Sub-Registry" registry located at <eref
+                        target="https://www.iana.org/assignments/rolie/category/information-type"/>
+                    . </t>
+                <section title="vulnerability information-type" anchor="iana-it-vuln">
+
+                    <t>The entry is as follows:<list>
+                            <t>name: vulnerability</t>
+                            <t>index: TBD</t>
+                            <t>reference: This document, <xref target="infotype-vulnerability"/></t>
+                        </list></t>
+                </section>
+            </section>
+        </section>
+
+        <section title="Security Considerations">
+            <t>All security considerations of the core ROLIE document apply to use of this
+                extension.</t>
+            <t>The use of this particular extension implies the use of ROLIE in sharing
+                vulnerability information. In automated use cases, downstream consumers may be
+                dynamically acquiring and acting on vulnerabilities posted to a ROLIE repository. In
+                this case, a compromised server could serve up false vulnerability information to
+                trigger dangerous activity in automated consumers. Automatic remediation solutions
+                that consume shared vulnerability information in high risk use cases should take
+                care to verify data before taking action. If some global ID, such as a CVE-ID, is
+                included, this verification should be trivial.</t>
+        </section>
+
+    </middle>
+    <back>
+        <references title="Normative References"> &RFC2119; &RFC8322; &RFC4949; &RFC5023; &RFC4287; &RFC8174;
+                <reference anchor="cve" target="https://cve.mitre.org/about/index.html">
+                <front>
+                    <title abbrev="CVE">Common Vulnerability Enumeration</title>
+                    <author> <organization abbrev="MITRE">The MITRE Corporation</organization> </author>
+                    <date/>
+                </front>
+            </reference>
+            <reference anchor="cvexml" target="https://cve.mitre.org/schema/cve/cve_1.0.xsd">
+                <front>
+                    <title abbrev="CVE-XML"/>
+                    <author>
+                        <organization abbrev="MITRE">The MITRE Corporation</organization>
+                    </author>
+                    <date/>
+                </front>
+            </reference>
+            <reference anchor="nvdcvexml" target="https://csrc.nist.gov/schema/nvd/nvdcve.xsdf">
+                <front>
+                    <title abbrev="NVD-CVE-XML">NVD CVE Entry XML Schema</title>
+                    <author>
+                        <organization abbrev="NIST">National Institute of Standards and
+                            Technology</organization>
+                    </author>
+                    <date/>
+                </front>
+            </reference>
+            <reference anchor="nvdcvejson"
+                target="https://csrc.nist.gov/schema/nvd/feed/1.0/nvd_cve_feed_json_1.0.schema">
+                <front>
+                    <title abbrev="NVD-CVE-JSON">NVD CVE Entry JSON Schema</title>
+                    <author>
+                        <organization abbrev="NIST">National Institute of Standards and
+                            Technology</organization>
+                    </author>
+                    <date/>
+                </front>
+            </reference>
+        </references>
+    </back>
+</rfc>
