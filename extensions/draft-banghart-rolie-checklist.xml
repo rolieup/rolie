@@ -14,7 +14,19 @@
 
   <front>
     <title abbrev="rolie-cc-ext">Definition of the ROLIE configuration checklist Extension</title>
-
+    <author fullname="Stephen Banghart" initials="S.B." surname="Banghart">
+      <organization>NIST</organization>
+      <address>
+        <postal>
+          <street>100 Bureau Drive</street>
+          <city>Gaithersburg</city>
+          <region>Maryland</region>
+          <code>20877</code>
+          <country>USA</country>
+        </postal>
+        <email>stephen.banghart@nist.gov</email>
+      </address>
+    </author>
     <author initials="B." surname="Munyan" fullname="Bill Munyan">
       <organization>Center for Internet Security</organization>
       <address>
@@ -39,8 +51,20 @@
         <email>adam.w.montville@gmail.com</email>
       </address>
     </author>
-
-    <date year="2017" month="June" day="16"/>
+    <author fullname="Gabriel Alford" initials="G.A." surname="Alford">
+      <organization>Red Hat, Inc.</organization>
+      <address>
+        <postal>
+          <street>100 East Davie Street</street>
+          <city>Raleigh</city>
+          <region>North Carolina</region>
+          <code>27601</code>
+          <country>USA</country>
+        </postal>
+        <email>galford@redhat.com</email>
+      </address>
+    </author>
+    <date year="2020"/>
 
     
     
