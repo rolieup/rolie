@@ -186,59 +186,75 @@
                 be either a plaintext name of a entity, or a link to a &lt;author&gt; element that
                 describes a entity. </t>
             </list></t>
-
-          <!-- Reformat remaining properties into the above form -->
-          <t>checklist version: The <spanx style="verb">value</spanx> of the “checklist version”
-            property indicates the version number of the configuration checklist, such as
-            <spanx style="verb">3.1.1</spanx></t>
-          <t>title: The <spanx style="verb">value</spanx> of the “title” property indicates the
-            document title of the configuration checklist, such as “CIS Benchmark for Microsoft
-            Windows Server 2012 R2”</t>
-          <t>publication date</t>
-          <t>overview</t>
-          <t>Product category (0..n), such as <list style="symbols">
-              <t>Antivirus Software</t>
-              <t>Application Server</t>
-              <t>Auditing</t>
-              <t>Authentication</t>
-              <t>Automation/Productivity Application Suite</t>
-              <t>Client and Server Encryption</t>
-              <t>Configuration Management Software</t>
-              <t>Database Management System</t>
-              <t>Desktop Application</t>
-              <t>Desktop Client</t>
-              <t>DHCP Server</t>
-              <t>Directory Service</t>
-              <t>DNS Server</t>
-              <t>Email Server</t>
-              <t>Encryption Software</t>
-              <t>Enterprise Application</t>
-              <t>File Encryption</t>
-              <t>Firewall</t>
-              <t>Firmware</t>
-              <t>Handheld Device</t>
-              <t>Identity Management</t>
-              <t>Intrusion Detection System</t>
-              <t>KVM</t>
-              <t>Mail Server</t>
-              <t>Malware</t>
-              <t>Mobile Solution</t>
-              <t>Monitoring</t>
-              <t>Multi-Functional Peripheral</t>
-              <t>Network Router</t>
-              <t>Network Switch</t>
-              <t>Office Suite</t>
-              <t>Operating System</t>
-              <t>Peripheral Device</t>
-              <t>Security Server</t>
-              <t>Server</t>
-              <t>Virtual Machine</t>
-              <t>Virtualization Software</t>
-              <t>Web Browser</t>
-              <t>Web Server</t>
-              <t>Wireless Email</t>
-              <t>Wireless Network</t>
-            </list></t>
+        
+          <t>checklist version <list style="symbols">
+            <t>name: urn:ietf:params:rolie:property:checklist:version</t>
+            <t>value: Indicates the version number of the configuration checklist, such as
+              <spanx style="verb">3.1.1</spanx>.</t>
+          </list></t>
+        
+        <t>title <list style="symbols">
+          <t>name: urn:ietf:params:rolie:property:checklist:title</t>
+          <t>value: Indicates the document title of the configuration checklist, such as "CIS Benchmark for Microsoft Windows Server 2012 R2".</t>
+        </list></t>
+        
+        <t>publication date <list style="symbols">
+          <t>name: urn:ietf:params:rolie:property:checklist:publication_date</t>
+          <t>value: Indicates the date of publication of this particular version of the configuration checklist.  The format of this value is in accordance with Section 3.3 of the Atom Syndication Format.</t>
+        </list></t>
+        
+        <t>overview <list style="symbols">
+          <t>name: urn:ietf:params:rolie:property:checklist:overview</t>
+          <t>value: This property allows for a textual overview and/or introduction to the configuration checklist including, but not limited to, overview of the
+          technology under assessment, limitations or caveats, or assumptions to be made when evaluating the checklist.</t>
+        </list></t>
+        
+        <t>product category (0..n) <list style="symbols">
+          <t>name: urn:ietf:params:rolie:property:checklist:product_category</t>
+          <t>value: This property allows for further refinement and identification of the configuration checklist using the technology category.  
+            Examples of product category values may be (but aren't limited to):<list style="symbols">
+            <t>Antivirus Software</t>
+            <t>Application Server</t>
+            <t>Auditing</t>
+            <t>Authentication</t>
+            <t>Automation/Productivity Application Suite</t>
+            <t>Client and Server Encryption</t>
+            <t>Configuration Management Software</t>
+            <t>Database Management System</t>
+            <t>Desktop Application</t>
+            <t>Desktop Client</t>
+            <t>DHCP Server</t>
+            <t>Directory Service</t>
+            <t>DNS Server</t>
+            <t>Email Server</t>
+            <t>Encryption Software</t>
+            <t>Enterprise Application</t>
+            <t>File Encryption</t>
+            <t>Firewall</t>
+            <t>Firmware</t>
+            <t>Handheld Device</t>
+            <t>Identity Management</t>
+            <t>Intrusion Detection System</t>
+            <t>KVM</t>
+            <t>Mail Server</t>
+            <t>Malware</t>
+            <t>Mobile Solution</t>
+            <t>Monitoring</t>
+            <t>Multi-Functional Peripheral</t>
+            <t>Network Router</t>
+            <t>Network Switch</t>
+            <t>Office Suite</t>
+            <t>Operating System</t>
+            <t>Peripheral Device</t>
+            <t>Security Server</t>
+            <t>Server</t>
+            <t>Virtual Machine</t>
+            <t>Virtualization Software</t>
+            <t>Web Browser</t>
+            <t>Web Server</t>
+            <t>Wireless Email</t>
+            <t>Wireless Network</t>
+          </list></t>
         </list></t>
     </section>
 
