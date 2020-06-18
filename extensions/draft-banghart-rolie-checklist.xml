@@ -140,7 +140,7 @@
         information that may be considered as components of a configuration checklist.</t>
 
       <t><list style="symbols">
-          <t>A “Data Stream”:</t>
+          <t>A “Data Stream”</t>
           <t>A “Benchmark”</t>
           <t>A “Profile”</t>
           <t>A “Value”</t>
@@ -153,11 +153,6 @@
             </list></t>
           <t>Applicable Platform Information</t>
           <t>Information regarding a set of patches to be evaluated</t>
-          <t>Any supported “tailoring” information, providing a method for evaluating entities to
-            refine the recommendations in the data stream without modifying the published data
-            stream content. (WKM NOTE: Does “tailoring” need to be here? Why would any tailoring be
-            included in a published feed? Unless the organization is re-publishing the content with
-            their tailoring included.)</t>
         </list></t>
 
     </section>
@@ -179,19 +174,19 @@
 
               <t> value: Indicates those individuals noted as recognized contributors to the
                 configuration checklist and/or the recommendations contained within. The value MUST
-                be either a plaintext name of a entity, or a link to a &lt;author&gt; element that
-                describes a entity. </t>
+                be either a plaintext name of a entity, or a link to an &lt;author&gt; element that
+                describes an entity. </t>
             </list></t>
         
           <t>checklist version <list style="symbols">
             <t>name: urn:ietf:params:rolie:property:checklist:version</t>
-            <t>value: Indicates the version number of the configuration checklist, such as
+            <t>value: Indicates the version/revision number of the configuration checklist.  Implementations MAY choose to incorporate a semantic versioning scheme illustrating "major.minor.point" releases, such as
               <spanx style="verb">3.1.1</spanx>.</t>
           </list></t>
         
         <t>title <list style="symbols">
           <t>name: urn:ietf:params:rolie:property:checklist:title</t>
-          <t>value: Indicates the document title of the configuration checklist, such as "CIS Benchmark for Microsoft Windows Server 2012 R2".</t>
+          <t>value: Indicates the document title of the configuration checklist, such as "CIS Benchmark for Microsoft Windows Server 2019".</t>
         </list></t>
         
         <t>publication date <list style="symbols">
@@ -262,7 +257,7 @@
         reason, this document specifies additional requirements to ensure interoperability.</t>
 
       <section title="Unstructured Formats">
-        <t> Several commonly used format are unstructered formats designed for human use, and
+        <t> Several commonly used formats are unstructered formats designed for human use, and
           therefore poorly support automation. These formats share the require to express their
           media-type correctly, but beyond that, this document makes only recommendations for their
           use.</t>
@@ -279,9 +274,9 @@
         <t>When the above formats are used, or when any unstructered data format is used, these
           recommendations SHOULD be followed: <list style="symbol">
             <t>The author of the document is provided in a rolie:property with name
-              "content-author".</t>
+              "urn:ietf:params:rolie:property:content-author-name".</t>
             <t>The title of the checklist, or in the case where none exists, the name of the file,
-              is provided in a rolie:property element with name "checklist-name".</t>
+              is provided in a rolie:property element with name "urn:ietf:params:rolie:property:checklist:title".</t>
             <!-- TODO fill in recommendations -->
           </list></t>
 
