@@ -88,18 +88,20 @@
 
     <section anchor="introduction" title="Introduction">
 
-      <t>This document defines an extension to the Resource-Oriented Lightweight Information
-        Exchange (ROLIE) protocol <xref target="I-D.ietf-mile-rolie"/> to support the publication of
-        configuration checklist information. Many enterprises operate according to guidance provided
-        to them by a control framework (<xref target="CIS_Critical_Controls"/>, <xref
-          target="PCI_DSS"/>, <xref target="NIST_800-53"/> etc.), which often prescribe that an
+      <t>Default configurations for endpoints (operating systems, applications, etc.) are normally 
+        geared towards ease-of-use or ease-of-deployment, not security.  As such, many enterprises 
+        operate according to guidance provided to them by a control framework (<xref target="CIS_Critical_Controls"/>, 
+        <xref target="PCI_DSS"/>, <xref target="NIST_800-53"/> etc.), which often prescribe that an
         enterprise define a standard, security-minded configuration for each technology they
         operate. Such standard configurations are often referred to as configuration checklists.
-        These configuration checklists contain a set of configuration recommendations for a given
-        endpoint. A configuration recommendation prescribes expected values pertaining to one or
-        more discrete endpoint attributes.</t>
+        This document defines an extension to the Resource-Oriented Lightweight Information
+        Exchange (ROLIE) protocol <xref target="I-D.ietf-mile-rolie"/> to support the publication of
+        configuration checklist information.  Configuration checklists contain a set of configuration 
+        recommendations for a given endpoint. A configuration recommendation prescribes expected 
+        values pertaining to one or more discrete endpoint attributes.</t>
 
     </section>
+    
     <section anchor="terminology" title="Terminology">
       <t>The key words "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL NOT," "SHOULD," "SHOULD NOT,"
         "RECOMMENDED," "MAY," and "OPTIONAL" in this document are to be interpreted as described in
