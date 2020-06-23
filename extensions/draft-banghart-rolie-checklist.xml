@@ -5,6 +5,7 @@
 
 <!ENTITY RFC8322 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8322.xml">
 <!ENTITY RFC2119 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY RFC8174 SYSTEM "https://xml2rfc.tools.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml">
 ]>
 
 <?rfc toc="yes"?>
@@ -101,9 +102,14 @@
 
     </section>
     <section anchor="terminology" title="Terminology">
-      <t>The key words "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL NOT," "SHOULD," "SHOULD NOT,"
-        "RECOMMENDED," "MAY," and "OPTIONAL" in this document are to be interpreted as described in
-          <xref target="RFC2119"/>. </t>
+      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT",
+        "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
+        interpreted as described in BCP 14 <xref target="RFC2119"/>
+        <xref target="RFC8174"/> when, and only when, they appear in all capitals, as shown
+        here.</t>
+      <t>The previous key words are used in this document to define the requirements for
+        implementations of this specification. As a result, the key words in this document are not
+        used for recommendations or requirements for the use of ROLIE.</t>
       <t>As an extension of <xref target="RFC8322"/>, this document refers to many terms defined in
         that document. In particular, the use of "Entry" and "Feed" are aligned with the definitions
         presented in section TODO of ROLIE.</t>
@@ -350,11 +356,27 @@
 
     </section>
     <section anchor="security-considerations" title="Security Considerations">
-      <t>TBD</t>
+      <t>Use of this extension requires understanding and managing the security considerations of
+        the core ROLIE specification. Beyond that, there must be considerations made for the common
+        use cases and data types that would be shared with this extension in particular.</t>
+
+      <t> Checklist information, while typically shared publicly, can have potential security impact
+        if compromised. In these cases, the utmost care should be taken to secure the REST endpoint.
+        Ensure that only authenticated users can allowed request access to any part of the ROLIE
+        repository. Authentication schemes such as OAUTH or basic HTTP Auth provide a signifigant
+        barrier to comprimise. When providing checklist information as a paid service, security is
+        valuable as a means to protect valuable data from being stolen or taken for free. In these
+        cases, the above strategies still apply, but providers may want to make the Feed visible to
+        non-authenticated users, with meaningful error messages sent to users that have not yet paid
+        for the service.</t>
+
+      <t> Typical RESTful security measures applied commonly on the web would be effective to secure
+        this ROLIE extension. As a flexible and reletaviely simple RESTful service, ROLIE server
+        implementations have great flexibility and freedom in securing their repository.</t>
 
     </section>
     <section anchor="privacy-considerations" title="Privacy Considerations">
-      <t>TBD</t>
+      <t>This extension poses no additonal privacy considerations above and beyond those stated in the core ROLIE specification.</t>
 
     </section>
 
@@ -363,7 +385,7 @@
 
   <back>
 
-    <references title="Normative References"> &RFC2119; &RFC8322; <reference
+    <references title="Normative References"> &RFC2119; &RFC8322; &RFC8174; <reference
         anchor="I-D.ietf-mile-rolie">
         <front>
           <title>Resource-Oriented Lightweight Information Exchange</title>
@@ -443,7 +465,33 @@
 
     </references>
 
-
+<section title="Examples" anchor="examples">
+  <t> This section provides some brief examples of a Checklist Information Type ROLIE Entry.
+    <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+      <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+  <?xml version="1.0" encoding="UTF-8"?>
+  <entry xmlns="http://www.w3.org/2005/Atom"
+    xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0">
+    <id>6e9b58c5-84eb-491b-b384-4b3425e5f66e</id>
+    <title>Sample Checlist</title>
+    <published>2020-08-04T18:19:51.0Z</published>
+    <updated>2020-12-05T11:13:51.0Z</updated>
+    <summary>An example checklist package. </summary>
+    <link rel="self" href="http://www.example.org/rolie/checklist/123456"/>
+    <link rel="feed" href="http://www.example.org/rolie/checklist/"/>
+    <link rel="supporting" href="http://www.example.org/data/supporting/example.zip"/>
+    <rolie:property name=urn:ietf:params:rolie:property:chk:chkname
+        value="Example Checklist Name"/>
+    <category
+        scheme="urn:ietf:params:rolie:category:information-type"
+        term="checklist"/>
+    <rolie:format 
+        ns="TODO"/>
+    <content type="application/zip" 
+        src="http://www.example.org/rolie/checklist/123456/data"/>
+  </entry>]]></artwork>
+    </figure></t>
+</section>
 
   </back>
 
