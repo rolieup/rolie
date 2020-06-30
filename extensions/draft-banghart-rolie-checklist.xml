@@ -242,52 +242,21 @@
         </list></t>
     </section>
 
-    <section title="Data format requirements">
+    <section title="Handling Existing Checklist Formats">
 
-      <t>This section defines usage guidance and additional requirements related to data formats
-        above and beyond those specified in <xref target="RFC8322"/>. The following formats are
-        expected to be commonly used to express configuration checklist information. For this
-        reason, this document specifies additional requirements to ensure interoperability.</t>
+     <t> Today, checklists are distributed in a myriad of different formats, using a variety of organization schemes.
+      This standard attempts to be as flexible as possible in its approach, in order to be usable by as many 
+      checklist distributors as possible. </t>
 
-      <section title="Unstructured Formats">
-        <t> Several commonly used format are unstructered formats designed for human use, and
-          therefore poorly support automation. These formats share the require to express their
-          media-type correctly, but beyond that, this document makes only recommendations for their
-          use.</t>
+      <t> Using the NIST National Checklist Program <xref target="https://nvd.nist.gov/ncp/repository"> as a foundation, checklists consist of a primary set of content and a list of supporting content. 
+      These pieces of content come in a number of machine readable and human readable , and it is out of scope of this standard to describe and prescribe guidance for all them. Instead, a best effort 
+      should be made to use the available properties, elements, and attributes to describe the content. Moreover, the content is often a compressed file that consists of a package of other content. Likewise, 
+      describing this nested structure is out of scope for this standard. </t>
 
-        <t>When the following formats are used in the content element of an entry, the rolie:format
-          element of that entry MUST match the provided media-type. <list style="hanging">
-            <t hangText="Portable Document Format (PDF)"> application/pdf </t>
-            <t hangText="Microsoft Office Word Document"> application/msword </t>
-            <t hangText="Microsoft Office Word Document (OpenXML or .docx)">
-              application/vnd.openxmlformats-officedocument.wordprocessingml.document </t>
-            <!-- TODO complete this list -->
-          </list></t>
-
-        <t>When the above formats are used, or when any unstructered data format is used, these
-          recommendations SHOULD be followed: <list style="symbol">
-            <t>The author of the document is provided in a rolie:property with name
-              "content-author".</t>
-            <t>The title of the checklist, or in the case where none exists, the name of the file,
-              is provided in a rolie:property element with name "checklist-name".</t>
-            <!-- TODO fill in recommendations -->
-          </list></t>
-
+      <t> When existing identifiers, titles, authors, and dates are provided in machine-readable forms inside a ROLIE Entry, automated processes can find and acquire checklist content with more ease than the 
+      current state-of-the-art. Fully solving the checklist automation problem will require a more significant effort touching on all parts of the checklist ecosystem.
 
       </section>
-
-      <section title="Compressed formats">
-
-        <t> Checklists are often distributed in compressed or packaged formats. Here is how we deal
-          with that:
-          <!-- TODO: figure this out. We will likely define some behavior that links to the automatable formats below.--></t>
-
-
-      </section>
-      <section title="Automatable/Structured Formats">
-        <t>OVAL,CVRF,SCAP,XCCDF, (SCAP 2.0 Manifest handling)</t>
-      </section>
-    </section>
     <section anchor="atom-link-registrations" title="atom:link Extensions">
 
       <texttable>
@@ -301,6 +270,12 @@
         <c>Links to a software descriptor resource defining the software subject to this
           configuration checklist entry</c>
 
+        <c>supporting</c>
+        <c>Links to a supporting document for the main content. 
+        The "title" attribute SHOULD be used to provide a human readable title for this document. 
+        Where possible, the "type" attribute MAY be used to describe the type of the supporting document. 
+        If the type is a simple IANA Media Type, the media type text should be used, otherwise,
+         a short human readable description should be used.</c>
       </texttable>
 
     </section>
@@ -363,7 +338,7 @@
       <t> Checklist information, while typically shared publicly, can have potential security impact
         if compromised. In these cases, the utmost care should be taken to secure the REST endpoint.
         Ensure that only authenticated users are allowed request access to any part of the ROLIE
-        repository. Authentication schemes such as OAUTH or basic HTTP Auth provide a signifigant
+        repository. Authentication schemes such as OAUTH or basic HTTP Auth provide a significantly
         barrier to compromise. When providing checklist information as a paid service, security is
         valuable as a means to protect valuable data from being stolen or taken for free. In these
         cases, the above strategies still apply, but providers may want to make the Feed visible to
@@ -371,12 +346,12 @@
         for the service.</t>
 
       <t> Typical RESTful security measures applied commonly on the web would be effective to secure
-        this ROLIE extension. As a flexible and reletaviely simple RESTful service, ROLIE server
+        this ROLIE extension. As a flexible and relatively simple RESTful service, ROLIE server
         implementations have great flexibility and freedom in securing their repository.</t>
 
     </section>
     <section anchor="privacy-considerations" title="Privacy Considerations">
-      <t>This extension poses no additonal privacy considerations above and beyond those stated in the core ROLIE specification.</t>
+      <t>This extension poses no additional privacy considerations above and beyond those stated in the core ROLIE specification.</t>
 
     </section>
 
