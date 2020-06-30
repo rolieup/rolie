@@ -454,14 +454,14 @@
     <category scheme="urn:ietf:params:rolie:category:information-type" term="checklist"/>
     <summary>SCAP content for evaluation of Red Hat Virtualization Host 4.x systems. The Red Hat content embeds multiple pre-established compliance profiles.</summary>
     <rolie:format ns="scap13namespace"/>
-    <content type="application/xml" src="https://nvd.nist.gov/ncp/checklist/908/download/5615"/>
+    <content type="application/zip" src="https://nvd.nist.gov/ncp/checklist/908/download/5615"/>
     <link rel="supporting" title="OpenControl-formatted NIST 800-53 responses for Red Hat Virtualization Host 4.x" href="https://github.com/ComplianceAsCode/redhat/tree/master/virtualization-host" type="Machine-Readable Format"/>
     <link rel="supporting" title="[DRAFT] DISA STIG for Red Hat Virtualization Host (RHVH)" href="https://galaxy.ansible.com/RedHatOfficial/rhv4_rhvh_stig" type="Ansible Playbook"/>
     <link rel="supporting" title="VPP - Protection Profile for Virtualization v. 1.0 for Red Hat Virtualization Hypervisor (RHVH)" href="https://galaxy.ansible.com/RedHatOfficial/rhv4_rhvh_vpp" type="Ansible Playbook"/>
     <rolie:property name="urn:ietf:params:rolie:property:content-id" value="908"/>
     <rolie:property name="urn:ietf:params:rolie:property:checklist:checklist-version" value="content v0.1.48"/>
-    <rolie:property name="urn:ietf:params:rolie:property:content-published-date" value="01/14/2020"/>
-    <rolie:property name="urn:ietf:params:rolie:property:content-updated-date" value=" 	06/14/2019"/>
+    <rolie:property name="urn:ietf:params:rolie:property:content-published-date" value="2020-01-14T00:00:00+00:00"/>
+    <rolie:property name="urn:ietf:params:rolie:property:content-updated-date" value="2019-06-14T00:00:00+00:00"/>
     <rolie:property name="urn:ietf:params:rolie:property:checklist:product-category" value="Virtual Machine"/>
 </entry>]]></artwork>
     </figure></t>
