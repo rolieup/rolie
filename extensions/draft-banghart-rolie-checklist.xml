@@ -130,15 +130,15 @@
             statement, and the expected state of collected posture information.</t>
         </list></t>
 
-      <t>TODO: There needs to be a "normative" reference to the SCAP 1.2/3 specifications and schema
+      <t>TODO: There needs to be a “normative” reference to the SCAP 1.2/3 specifications and schema
         definitions</t>
 
     </section>
 
     <section anchor="checklist-information-type"
-      title="The 'configuration-checklist' information-type">
+      title="The “configuration-checklist” information-type">
       <t>This document registers a new information type for use in ROLIE repositories. The
-        "configuration-checklist" information type represents a body of information describing a set
+        “configuration-checklist” information type represents a body of information describing a set
         of configuration recommendations. A configuration recommendation is, minimally, a single
         configuration item paired with a recommended value or range of values. Depending on the
         source, a configuration recommendation may carry with it additional information (i.e.
@@ -146,15 +146,15 @@
         information that may be considered as components of a configuration checklist.</t>
 
       <t><list style="symbols">
-          <t>A "Data Stream"</t>
-          <t>A "Benchmark"</t>
-          <t>A "Profile"</t>
-          <t>A "Value"</t>
-          <t>A "Rule" or "Group" of Rules <list style="symbols">
+          <t>A “Data Stream”</t>
+          <t>A “Benchmark”</t>
+          <t>A “Profile”</t>
+          <t>A “Value”</t>
+          <t>A “Rule” or “Group” of Rules <list style="symbols">
               <t>Description</t>
               <t>Rationale</t>
               <t>Remediation Instructions</t>
-              <t>Information, described in the dialect of a supported "check system", indicating the
+              <t>Information, described in the dialect of a supported “check system”, indicating the
                 method(s) used to audit the checklist configuration item.</t>
             </list></t>
           <t>Applicable Platform Information</t>
@@ -175,22 +175,29 @@
 
       <t><list style="symbols">
 
-        <t>contributor (0..n) <list style="symbols">
-          <t>name: urn:ietf:params:rolie:property:checklist:contributor</t>
-          <t>value: Indicates those individuals noted as recognized contributors to the configuration checklist and/or the recommendations 
-            contained within. The value MUST be either a plaintext name of a entity, or a link to an &lt;author&gt; element that describes 
-            an entity.</t>
-        </list></t>
+          <t>contributor (0..n) <list style="symbols">
+              <t>name: urn:ietf:params:rolie:property:checklist:contributor</t>
+
+              <t> value: Indicates those individuals noted as recognized contributors to the
+                configuration checklist and/or the recommendations contained within. The value MUST
+                be either a plaintext name of a entity, or a link to an &lt;author&gt; element that
+                describes an entity. </t>
+            </list></t>
         
-        <t>checklist version <list style="symbols">
-          <t>name: urn:ietf:params:rolie:property:checklist:version</t>
-          <t>value: Indicates the version/revision number of the configuration checklist.  Implementations MAY choose to incorporate a semantic 
-            versioning scheme illustrating "major.minor.point" releases, such as <spanx style="verb">3.1.1</spanx>.</t>
-        </list></t>
+          <t>checklist version <list style="symbols">
+            <t>name: urn:ietf:params:rolie:property:checklist:version</t>
+            <t>value: Indicates the version/revision number of the configuration checklist.  Implementations MAY choose to incorporate a semantic versioning scheme illustrating "major.minor.point" releases, such as
+              <spanx style="verb">3.1.1</spanx>.</t>
+          </list></t>
         
         <t>title <list style="symbols">
           <t>name: urn:ietf:params:rolie:property:checklist:title</t>
           <t>value: Indicates the document title of the configuration checklist, such as "CIS Benchmark for Microsoft Windows Server 2019".</t>
+        </list></t>
+        
+        <t>publication date <list style="symbols">
+          <t>name: urn:ietf:params:rolie:property:checklist:publication_date</t>
+          <t>value: Indicates the date of publication of this particular version of the configuration checklist.  The format of this value is in accordance with Section 3.3 of the Atom Syndication Format.</t>
         </list></t>
         
         <t>overview <list style="symbols">
@@ -199,14 +206,8 @@
           technology under assessment, limitations or caveats, or assumptions to be made when evaluating the checklist.</t>
         </list></t>
         
-        <t>product name (0..n) <list style="symbols">
-          <t>name: urn:ietf:params:rolie:property:checklist:product-name</t>
-          <t>value: This property allows for further refinement and identification of the configuration checklist using the name of the product or products to which
-          the checklist applies, such as Microsoft Windows Server 2019, Red Hat Enterprise Linux, IBM WebSphere Application Server, Google Chrome, etc.</t>
-        </list></t>
-        
         <t>product category (0..n) <list style="symbols">
-          <t>name: urn:ietf:params:rolie:property:checklist:product-category</t>
+          <t>name: urn:ietf:params:rolie:property:checklist:product_category</t>
           <t>value: This property allows for further refinement and identification of the configuration checklist using the technology category.  
             Examples of product category values may be (but aren't limited to):<list style="symbols">
             <t>Antivirus Software</t>
@@ -318,7 +319,7 @@
 
 
       <!--
-      <t>New IANA table for "ROLIE Entry Format"</t>
+      <t>New IANA table for “ROLIE Entry Format”</t>
 
       <t><list style="symbols">
           <t>scap-1.2</t>
@@ -326,9 +327,9 @@
           <t>xccdf-1.2-collection</t>
           <t>oval</t>
           <t>cvrf</t>
-          <t>cve (should we reuse the enumref?); Look at the "enumref" and see if we can copy/paste
+          <t>cve (should we reuse the enumref?); Look at the “enumref” and see if we can copy/paste
             configuration checklist-specific information in a similar manner? Can we then include
-            that enum reference in the ROLIE extension document or should we create a new "enumref"
+            that enum reference in the ROLIE extension document or should we create a new “enumref”
             document separately?</t>
           <t>vulnerability</t>
         </list></t>
