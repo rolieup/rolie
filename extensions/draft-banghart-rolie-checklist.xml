@@ -130,15 +130,15 @@
             statement, and the expected state of collected posture information.</t>
         </list></t>
 
-      <t>TODO: There needs to be a “normative” reference to the SCAP 1.2/3 specifications and schema
+      <t>TODO: There needs to be a "normative" reference to the SCAP 1.2/3 specifications and schema
         definitions</t>
 
     </section>
 
     <section anchor="checklist-information-type"
-      title="The “configuration-checklist” information-type">
+      title="The 'configuration-checklist' information-type">
       <t>This document registers a new information type for use in ROLIE repositories. The
-        “configuration-checklist” information type represents a body of information describing a set
+        "configuration-checklist" information type represents a body of information describing a set
         of configuration recommendations. A configuration recommendation is, minimally, a single
         configuration item paired with a recommended value or range of values. Depending on the
         source, a configuration recommendation may carry with it additional information (i.e.
@@ -146,15 +146,15 @@
         information that may be considered as components of a configuration checklist.</t>
 
       <t><list style="symbols">
-          <t>A “Data Stream”</t>
-          <t>A “Benchmark”</t>
-          <t>A “Profile”</t>
-          <t>A “Value”</t>
-          <t>A “Rule” or “Group” of Rules <list style="symbols">
+          <t>A "Data Stream"</t>
+          <t>A "Benchmark"</t>
+          <t>A "Profile"</t>
+          <t>A "Value"</t>
+          <t>A "Rule" or "Group" of Rules <list style="symbols">
               <t>Description</t>
               <t>Rationale</t>
               <t>Remediation Instructions</t>
-              <t>Information, described in the dialect of a supported “check system”, indicating the
+              <t>Information, described in the dialect of a supported "check system", indicating the
                 method(s) used to audit the checklist configuration item.</t>
             </list></t>
           <t>Applicable Platform Information</t>
@@ -175,29 +175,22 @@
 
       <t><list style="symbols">
 
-          <t>contributor (0..n) <list style="symbols">
-              <t>name: urn:ietf:params:rolie:property:checklist:contributor</t>
-
-              <t> value: Indicates those individuals noted as recognized contributors to the
-                configuration checklist and/or the recommendations contained within. The value MUST
-                be either a plaintext name of a entity, or a link to an &lt;author&gt; element that
-                describes an entity. </t>
-            </list></t>
+        <t>contributor (0..n) <list style="symbols">
+          <t>name: urn:ietf:params:rolie:property:checklist:contributor</t>
+          <t>value: Indicates those individuals noted as recognized contributors to the configuration checklist and/or the recommendations 
+            contained within. The value MUST be either a plaintext name of a entity, or a link to an &lt;author&gt; element that describes 
+            an entity.</t>
+        </list></t>
         
-          <t>checklist version <list style="symbols">
-            <t>name: urn:ietf:params:rolie:property:checklist:version</t>
-            <t>value: Indicates the version/revision number of the configuration checklist.  Implementations MAY choose to incorporate a semantic versioning scheme illustrating "major.minor.point" releases, such as
-              <spanx style="verb">3.1.1</spanx>.</t>
-          </list></t>
+        <t>checklist version <list style="symbols">
+          <t>name: urn:ietf:params:rolie:property:checklist:version</t>
+          <t>value: Indicates the version/revision number of the configuration checklist.  Implementations MAY choose to incorporate a semantic 
+            versioning scheme illustrating "major.minor.point" releases, such as <spanx style="verb">3.1.1</spanx>.</t>
+        </list></t>
         
         <t>title <list style="symbols">
           <t>name: urn:ietf:params:rolie:property:checklist:title</t>
           <t>value: Indicates the document title of the configuration checklist, such as "CIS Benchmark for Microsoft Windows Server 2019".</t>
-        </list></t>
-        
-        <t>publication date <list style="symbols">
-          <t>name: urn:ietf:params:rolie:property:checklist:publication_date</t>
-          <t>value: Indicates the date of publication of this particular version of the configuration checklist.  The format of this value is in accordance with Section 3.3 of the Atom Syndication Format.</t>
         </list></t>
         
         <t>overview <list style="symbols">
@@ -206,8 +199,14 @@
           technology under assessment, limitations or caveats, or assumptions to be made when evaluating the checklist.</t>
         </list></t>
         
+        <t>product name (0..n) <list style="symbols">
+          <t>name: urn:ietf:params:rolie:property:checklist:product-name</t>
+          <t>value: This property allows for further refinement and identification of the configuration checklist using the name of the product or products to which
+          the checklist applies, such as Microsoft Windows Server 2019, Red Hat Enterprise Linux, IBM WebSphere Application Server, Google Chrome, etc.</t>
+        </list></t>
+        
         <t>product category (0..n) <list style="symbols">
-          <t>name: urn:ietf:params:rolie:property:checklist:product_category</t>
+          <t>name: urn:ietf:params:rolie:property:checklist:product-category</t>
           <t>value: This property allows for further refinement and identification of the configuration checklist using the technology category.  
             Examples of product category values may be (but aren't limited to):<list style="symbols">
             <t>Antivirus Software</t>
@@ -256,20 +255,19 @@
     </section>
 
     <section title="Handling Existing Checklist Formats">
-
-     <t> Today, checklists are distributed in a myriad of different formats, using a variety of organization schemes.
-      This standard attempts to be as flexible as possible in its approach, in order to be usable by as many 
-      checklist distributors as possible. </t>
-
+      <t> Today, checklists are distributed in a myriad of different formats, using a variety of organization schemes.
+        This standard attempts to be as flexible as possible in its approach, in order to be usable by as many 
+        checklist distributors as possible. </t>
+      
       <t> Using the NIST National Checklist Program <xref target="https://nvd.nist.gov/ncp/repository"> as a foundation, checklists consist of a primary set of content and a list of supporting content. 
-      These pieces of content come in a number of machine readable and human readable formats, and it is out of scope of this standard to describe guidance for all them. Instead, a best effort 
-      should be made to use the available properties, elements, and attributes to describe the content. Moreover, the content is often a compressed file that consists of a package of other content. Likewise, 
-      describing this nested structure is out of scope for this standard. Each organization should use a description scheme that best matches their use and business cases, and this description scheme should be documented as thoroughly as possible for all users. </t>
-
+        These pieces of content come in a number of machine readable and human readable formats, and it is out of scope of this standard to describe guidance for all them. Instead, a best effort 
+        should be made to use the available properties, elements, and attributes to describe the content. Moreover, the content is often a compressed file that consists of a package of other content. Likewise, 
+        describing this nested structure is out of scope for this standard. Each organization should use a description scheme that best matches their use and business cases, and this description scheme should be documented as thoroughly as possible for all users. </t>
+      
       <t> When existing identifiers, titles, authors, and dates are provided in machine-readable forms inside a ROLIE Entry, automated processes can find and acquire checklist content with more ease than the 
-      current state-of-the-art methodology. Fully solving the checklist automation problem will require a more significant effort touching on all parts of the checklist ecosystem.
-
-      </section>
+        current state-of-the-art methodology. Fully solving the checklist automation problem will require a more significant effort touching on all parts of the checklist ecosystem.
+    </section>
+    
     <section anchor="atom-link-registrations" title="atom:link Extensions">
 
       <texttable>
@@ -285,10 +283,10 @@
 
         <c>supporting</c>
         <c>Links to a supporting document for the main content. 
-        The "title" attribute SHOULD be used to provide a human readable title for this document. 
-        Where possible, the "type" attribute MAY be used to describe the type of the supporting document. 
-        If the type is a simple IANA Media Type, the media type text should be used, otherwise,
-         a short human readable description should be used.</c>
+          The "title" attribute SHOULD be used to provide a human readable title for this document. 
+          Where possible, the "type" attribute MAY be used to describe the type of the supporting document. 
+          If the type is a simple IANA Media Type, the media type text should be used, otherwise,
+          a short human readable description should be used.</c>
       </texttable>
 
     </section>
@@ -319,7 +317,7 @@
 
 
       <!--
-      <t>New IANA table for “ROLIE Entry Format”</t>
+      <t>New IANA table for "ROLIE Entry Format"</t>
 
       <t><list style="symbols">
           <t>scap-1.2</t>
@@ -327,9 +325,9 @@
           <t>xccdf-1.2-collection</t>
           <t>oval</t>
           <t>cvrf</t>
-          <t>cve (should we reuse the enumref?); Look at the “enumref” and see if we can copy/paste
+          <t>cve (should we reuse the enumref?); Look at the "enumref" and see if we can copy/paste
             configuration checklist-specific information in a similar manner? Can we then include
-            that enum reference in the ROLIE extension document or should we create a new “enumref”
+            that enum reference in the ROLIE extension document or should we create a new "enumref"
             document separately?</t>
           <t>vulnerability</t>
         </list></t>
@@ -347,7 +345,7 @@
       <t>Use of this extension requires understanding and managing the security considerations of
         the core ROLIE specification. Beyond that, there must be considerations made for the common
         use cases and data types that would be shared with this extension in particular.</t>
-
+      
       <t> Checklist information, while typically shared publicly, can have potential security impact
         if compromised. In these cases, the utmost care should be taken to secure the REST endpoint.
         Ensure that only authenticated users are allowed request access to any part of the ROLIE
@@ -357,12 +355,12 @@
         cases, the above strategies still apply, but providers may want to make the Feed visible to
         non-authenticated users, with meaningful error messages sent to users that have not yet paid
         for the service.</t>
-
+      
       <t> Typical RESTful security measures applied commonly on the web would be effective to secure
         this ROLIE extension. As a flexible and relatively simple RESTful service, ROLIE server
         implementations have great flexibility and freedom in securing their repository.</t>
-
     </section>
+    
     <section anchor="privacy-considerations" title="Privacy Considerations">
       <t>This extension poses no additional privacy considerations above and beyond those stated in the core ROLIE specification.</t>
 
@@ -453,10 +451,11 @@
 
     </references>
 
-<section title="Examples" anchor="examples">
-  <t> This section provides some brief examples of a Checklist Information Type ROLIE Entry.
-    <figure height="" suppress-title="false" width="" alt="" title="" align="left">
-      <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
+
+    <section title="Examples" anchor="examples">
+      <t> This section provides some brief examples of a Checklist Information Type ROLIE Entry.
+        <figure height="" suppress-title="false" width="" alt="" title="" align="left">
+          <artwork height="" name="" width="" type="" alt="" align="left" xml:space="preserve"><![CDATA[
 <?xml version="1.0" encoding="UTF-8"?>
 <entry xmlns="https://www.w3.org/2005/Atom" 
     xmlns:rolie="urn:ietf:params:xml:ns:rolie-1.0" xml:lang="en-US">
@@ -477,9 +476,9 @@
     <rolie:property name="urn:ietf:params:rolie:property:content-updated-date" value="2019-06-14T00:00:00+00:00"/>
     <rolie:property name="urn:ietf:params:rolie:property:checklist:product-category" value="Virtual Machine"/>
 </entry>]]></artwork>
-    </figure></t>
-</section>
-
-</back>
+        </figure></t>
+    </section>
+    
+  </back>
 
 </rfc>
